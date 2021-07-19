@@ -59,44 +59,44 @@
 ### Guest 
 * A customer. Someone who wants to book a place to stay. Guest data is in ./data/guests.csv.
 * Fields:
-  * id
-  * firstName
-  * lastName
-  * email
-  * phone #
-  * state
+  * id (system-generated)
+  * String firstName
+  * String lastName
+  * String email
+  * String phone #
+  * String state
 ### Host  
 * The accommodation provider. Someone who has a property to rent per night. Host data is in ./data/hosts.csv.
 * Fields:
-  *id
-  * lastName
-  * email 
-  * phone # 
-  * address 
-  * city 
-  * state 
-  * postalCode 
-  * standardRate 
-  * weekendRate
+  * id (system-generated)
+  * String lastName
+  * String email 
+  * String phone # 
+  * String address 
+  * String city 
+  * String state 
+  * String postalCode 
+  * BigDecimal standardRate 
+  * BigDecimal weekendRate
 ### Location
 * A rental property. In Don't Wreck My House, Location and Host are combined. The application enforces a limit 
   on one Location per Host, so we can think of a Host and Location as a single thing.
 * For now, we will not create Location, but we will ask if it would be smart to create and pass as a field in Host for
   better chance for future development.
 * Fields:
-  * address
-  * city
-  * state
-  * postalCode
+  * String address
+  * String city
+  * String state
+  * String postalCode
 ### Reservation
 * One or more days where a Guest has exclusive access to a Location (or Host). Reservation data is in ./data/reservations.
 * A host reservation file name has the format: {host-identifier}.csv.  
 * Fields: 
-  *id
-  * startDate
-  * endDate
-  * guestId
-  * total
+  * id (system-generated)
+  * LocalDate startDate
+  * LocalDate endDate
+  * guestId (system-generated)
+  * BigDecimal total
 
 ## Data
 * Custom DataException
@@ -105,14 +105,14 @@
 * inject file
 * GuestRepository interface
 * public findAll()
-* public findById()
+* public findByEmail()
 * private deserialize
 
 ### HostFileRepository (~1 hr)
 * inject file
 * HostRepository interface
 * public findAll()
-* public findById()
+* public findByEmail()
 * private deserialize()
 
 ### ReservationFileRepository (~1.5 hrs)
@@ -131,13 +131,13 @@
 ### GuestService (~1.5 hrs)
 * inject repository
 * public findAll()
-* public findById()
+* public findByEmail()
 * private validate()
 
 ### HostService (~1.5 hrs)
 * inject repository
 * public findAll()
-* public findById()
+* public findByEmail()
 * private validate()
 
 ### ReservationService (~2.5 hrs)
@@ -173,6 +173,8 @@
 * public printf()
 * public readString()
 * public readRequiredString()
+* public readLocalDate()
+* public readBigDecimal()  
 * any other read methods with necessary overloads and requirements
 
 ### Controller (~1.5 hrs)
