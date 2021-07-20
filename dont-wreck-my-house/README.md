@@ -59,7 +59,7 @@
 ### Guest 
 * A customer. Someone who wants to book a place to stay. Guest data is in ./data/guests.csv.
 * Fields:
-  * id (system-generated)
+  * int id
   * String firstName
   * String lastName
   * String email
@@ -67,53 +67,55 @@
   * String state
 ### Host  
 * The accommodation provider. Someone who has a property to rent per night. Host data is in ./data/hosts.csv.
+* A rental property. In Don't Wreck My House, Location and Host are combined. The application enforces a limit
+  on one Location per Host, so we can think of a Host and Location as a single thing.  
 * Fields:
   * id (system-generated)
   * String lastName
   * String email 
   * String phone # 
-  * String address 
-  * String city 
-  * String state 
-  * String postalCode 
-  * BigDecimal standardRate 
-  * BigDecimal weekendRate
-### Location
-* A rental property. In Don't Wreck My House, Location and Host are combined. The application enforces a limit 
-  on one Location per Host, so we can think of a Host and Location as a single thing.
-* For now, we will not create Location, but we will ask if it would be smart to create and pass as a field in Host for
-  better chance for future development.
-* Fields:
   * String address
   * String city
   * String state
   * String postalCode
+  * List<Reservation> reservations  
+  * BigDecimal standardRate 
+  * BigDecimal weekendRate
+  
 ### Reservation
 * One or more days where a Guest has exclusive access to a Location (or Host). Reservation data is in ./data/reservations.
-* A host reservation file name has the format: {host-identifier}.csv.  
+* A host reservation file name has the format: {host-id}.csv.
 * Fields: 
-  * id (system-generated)
+  * int id
   * LocalDate startDate
   * LocalDate endDate
-  * guestId (system-generated)
+  * int guestId
   * BigDecimal total
+  * String hostId
 
 ## Data
 * Custom DataException
+* Perform tests for public methods
 
 ### GuestFileRepository (~1 hr)
 * inject file
 * GuestRepository interface
 * public findAll()
+  * BufferedReader, FileReader, catch IOException, swallow FileNotFound
 * public findByEmail()
 * private deserialize
+  * split line, check for length, return Guest
+* Create GuestFileRepositoryTest
 
 ### HostFileRepository (~1 hr)
 * inject file
 * HostRepository interface
 * public findAll()
+  * BufferedReader, FileReader, catch IOException, swallow FileNotFound
 * public findByEmail()
 * private deserialize()
+  * split line, check for length, return Host
+* Create HostFileRepositoryTest  
 
 ### ReservationFileRepository (~1.5 hrs)
 * inject directory
@@ -121,12 +123,19 @@
 * public find()  
 * public add()
 * public update()
+* public deleteById()  
 * private getFilePath()
 * private writeAll()
 * private serialize()
+  * StringBuilder, DELIMITER
 * private deserialize()
+  * split line, check for length, return Host
+* Create ReservationRepositoryTest  
 
 ## Domain
+* perform tests for public methods with repo doubles
+* test positive and negative conditions
+* tests for GuestService and HostService should be very similar
 
 ### GuestService (~1.5 hrs)
 * inject repository
@@ -144,7 +153,13 @@
 * inject repository
 * public find()
 * public add()
+  * update Host's reservation list here
+  * calculate $  
+  * call repository.add(reservation)
 * public update()
+  * update Host's reservation list here
+  * calculate $  
+  * call repository.update(reservation)
 * private validate()
 
 ### Response 
