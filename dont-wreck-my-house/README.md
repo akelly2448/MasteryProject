@@ -99,25 +99,27 @@
 
 ### GuestFileRepository (~1 hr)
 * [x] inject file
-* [ ] GuestRepository interface
+* [x] GuestRepository interface
 * [x] public findAll()
   * [x] BufferedReader, FileReader, catch IOException, swallow FileNotFound
 * [x] private deserialize
   * [x] split line, check for length, return Guest
-* [ ] Create GuestFileRepositoryTest
+* [x] Create GuestFileRepositoryTest
+* [x] test public methods
 
 ### HostFileRepository (~1 hr)
 * [x] inject file
-* [ ] HostRepository interface
+* [x] HostRepository interface
 * [x] public findAll()
   * [x] BufferedReader, FileReader, catch IOException, swallow FileNotFound
 * [x] private deserialize()
   * [x] split line, check for length, return Host
-* [ ] Create HostFileRepositoryTest  
+* [x] Create HostFileRepositoryTest 
+* [x] test public methods
 
 ### ReservationFileRepository (~1.5 hrs)
 * [x] inject directory
-* [ ] ReservationRepository interface
+* [x] ReservationRepository interface
 * [x] public findByHostId()  
 * [x] public add()
 * [x] public update()
@@ -128,7 +130,8 @@
   * [x] StringBuilder, DELIMITER
 * [x] private deserialize()
   * [x] split line, check for length, return Host
-* [ ] Create ReservationRepositoryTest  
+* [x] Create ReservationRepositoryTest
+* [x] test public methods
 
 ## Domain
 * perform tests for public methods with repo doubles
@@ -136,17 +139,15 @@
 * tests for GuestService and HostService should be very similar
 
 ### GuestService (~1.5 hrs)
-* [ ] inject repository
+* [x] inject repository
 * [ ] public findAll()
-* [ ] public findByLastName()
-* [ ] private validate()
+* [x] public findByLastName()
 * [ ] create service test and test methods
 
 ### HostService (~1.5 hrs)
 * [ ] inject repository
 * [ ] public findAll()
 * [ ] public findByLastName()
-* [ ] private validate()
 * [ ] create service test and test methods
 
 ### ReservationService (~2.5 hrs)
