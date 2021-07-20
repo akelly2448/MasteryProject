@@ -98,39 +98,37 @@
 * Perform tests for public methods
 
 ### GuestFileRepository (~1 hr)
-* inject file
-* GuestRepository interface
-* public findAll()
-  * BufferedReader, FileReader, catch IOException, swallow FileNotFound
-* public findByEmail()
-* private deserialize
-  * split line, check for length, return Guest
-* Create GuestFileRepositoryTest
+* [x] inject file
+* [ ] GuestRepository interface
+* [x] public findAll()
+  * [x] BufferedReader, FileReader, catch IOException, swallow FileNotFound
+* [x] private deserialize
+  * [x] split line, check for length, return Guest
+* [ ] Create GuestFileRepositoryTest
 
 ### HostFileRepository (~1 hr)
-* inject file
-* HostRepository interface
-* public findAll()
-  * BufferedReader, FileReader, catch IOException, swallow FileNotFound
-* public findByEmail()
-* private deserialize()
-  * split line, check for length, return Host
-* Create HostFileRepositoryTest  
+* [x] inject file
+* [ ] HostRepository interface
+* [x] public findAll()
+  * [x] BufferedReader, FileReader, catch IOException, swallow FileNotFound
+* [x] private deserialize()
+  * [x] split line, check for length, return Host
+* [ ] Create HostFileRepositoryTest  
 
 ### ReservationFileRepository (~1.5 hrs)
-* inject directory
-* ReservationRepository interface
-* public find()  
-* public add()
-* public update()
-* public deleteById()  
-* private getFilePath()
-* private writeAll()
-* private serialize()
-  * StringBuilder, DELIMITER
-* private deserialize()
-  * split line, check for length, return Host
-* Create ReservationRepositoryTest  
+* [x] inject directory
+* [ ] ReservationRepository interface
+* [x] public findByHostId()  
+* [x] public add()
+* [x] public update()
+* [x] public deleteById()  
+* [x] private getFilePath()
+* [x] private writeAll()
+* [x] private serialize()
+  * [x] StringBuilder, DELIMITER
+* [x] private deserialize()
+  * [x] split line, check for length, return Host
+* [ ] Create ReservationRepositoryTest  
 
 ## Domain
 * perform tests for public methods with repo doubles
@@ -138,38 +136,41 @@
 * tests for GuestService and HostService should be very similar
 
 ### GuestService (~1.5 hrs)
-* inject repository
-* public findAll()
-* public findByEmail()
-* private validate()
+* [ ] inject repository
+* [ ] public findAll()
+* [ ] public findByLastName()
+* [ ] private validate()
+* [ ] create service test and test methods
 
 ### HostService (~1.5 hrs)
-* inject repository
-* public findAll()
-* public findByEmail()
-* private validate()
+* [ ] inject repository
+* [ ] public findAll()
+* [ ] public findByLastName()
+* [ ] private validate()
+* [ ] create service test and test methods
 
 ### ReservationService (~2.5 hrs)
-* inject repository
-* public find()
-* public add()
-  * update Host's reservation list here
-  * calculate $  
-  * call repository.add(reservation)
-* public update()
-  * update Host's reservation list here
-  * calculate $  
-  * call repository.update(reservation)
-* private validate()
+* [ ] inject repository
+* [ ] public find()
+* [ ] public add()
+  * [ ] update Host's reservation list here
+  * [ ] calculate $  
+  * [ ] call repository.add(reservation)
+* [ ] public update()
+  * [ ] update Host's reservation list here
+  * [ ] calculate $  
+  * [ ] call repository.update(reservation)
+* [ ] private validate()
+* [ ] create service test and test methods
 
 ### Response 
-* private isSuccess()
-* public getErrorMessages()
-* public addErrorMessage()
+* [ ] private isSuccess()
+* [ ] public getErrorMessages()
+* [ ] public addErrorMessage()
 
 ### Result
-* public getPayload()
-* public setPayload()
+* [ ] public getPayload()
+* [ ] public setPayload()
 
 ## UI
 

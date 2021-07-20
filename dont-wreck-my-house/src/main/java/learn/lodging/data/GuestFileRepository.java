@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class GuestFileRepository {
+public class GuestFileRepository implements GuestRepository {
 
     private final String HEADER = "guest_id,first_name,last_name,email,phone,state";
     private String filePath;
@@ -21,6 +21,7 @@ public class GuestFileRepository {
         this.filePath = filePath;
     }
 
+    @Override
     public List<Guest> findAll(){
         ArrayList<Guest> result = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
