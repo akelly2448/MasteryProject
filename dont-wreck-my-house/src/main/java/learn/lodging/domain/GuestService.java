@@ -1,6 +1,6 @@
 package learn.lodging.domain;
 
-import learn.lodging.data.GuestFileRepository;
+import learn.lodging.data.GuestRepository;
 import learn.lodging.models.Guest;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,14 @@ import java.util.stream.Collectors;
 @Service
 public class GuestService {
 
-    private final GuestFileRepository repository;
+    private final GuestRepository repository;
 
-    public GuestService(GuestFileRepository repository) {
+    public GuestService(GuestRepository repository) {
         this.repository = repository;
+    }
+
+    public Guest findById(int id){
+        return repository.findById(id);
     }
 
     public List<Guest> findByLastName(String prefix) {

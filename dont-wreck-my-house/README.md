@@ -100,6 +100,7 @@
 ### GuestFileRepository (~1 hr)
 * [x] inject file
 * [x] GuestRepository interface
+* [x] public findById()  
 * [x] public findAll()
   * [x] BufferedReader, FileReader, catch IOException, swallow FileNotFound
 * [x] private deserialize
@@ -110,6 +111,7 @@
 ### HostFileRepository (~1 hr)
 * [x] inject file
 * [x] HostRepository interface
+* [x] public findById()  
 * [x] public findAll()
   * [x] BufferedReader, FileReader, catch IOException, swallow FileNotFound
 * [x] private deserialize()
@@ -140,38 +142,38 @@
 
 ### GuestService (~1.5 hrs)
 * [x] inject repository
-* [ ] public findAll()
+* [x] public findById()
 * [x] public findByLastName()
 * [ ] create service test and test methods
 
 ### HostService (~1.5 hrs)
-* [ ] inject repository
-* [ ] public findAll()
-* [ ] public findByLastName()
+* [x] inject repository
+* [x] public findById()
+* [x] public findByLastName()
 * [ ] create service test and test methods
 
 ### ReservationService (~2.5 hrs)
-* [ ] inject repository
+* [x] inject repository
 * [ ] public find()
-* [ ] public add()
-  * [ ] update Host's reservation list here
-  * [ ] calculate $  
-  * [ ] call repository.add(reservation)
-* [ ] public update()
-  * [ ] update Host's reservation list here
-  * [ ] calculate $  
-  * [ ] call repository.update(reservation)
-* [ ] private validate()
+* [x] public add()
+  * [x] calculate $
+  * [x] call repository.add(reservation)
+* [x] public update()
+  * [x] calculate $  
+  * [x] call repository.update(reservation)
+* [x] public delete()
+* [x] public calculateTotal()  
+* [x] private validate()
 * [ ] create service test and test methods
 
 ### Response 
-* [ ] private isSuccess()
-* [ ] public getErrorMessages()
-* [ ] public addErrorMessage()
+* [x] private isSuccess()
+* [x] public getErrorMessages()
+* [x] public addErrorMessage()
 
 ### Result
-* [ ] public getPayload()
-* [ ] public setPayload()
+* [x] public getPayload()
+* [x] public setPayload()
 
 ## UI
 
