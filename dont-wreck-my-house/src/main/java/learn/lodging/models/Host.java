@@ -13,7 +13,6 @@ public class Host {
     private String city;
     private String state;
     private String postalCode;
-    private List<Reservation> reservations;
     private BigDecimal standardRate;
     private BigDecimal weekendRate;
 
@@ -21,7 +20,7 @@ public class Host {
 
     }
 
-    public Host(String id, String lastName, String email, String phoneNum, String address, String city, String state, String postalCode, List<Reservation> reservations, BigDecimal standardRate, BigDecimal weekendRate) {
+    public Host(String id, String lastName, String email, String phoneNum, String address, String city, String state, String postalCode, BigDecimal standardRate, BigDecimal weekendRate) {
         this.id = id;
         this.lastName = lastName;
         this.email = email;
@@ -30,7 +29,6 @@ public class Host {
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
-        this.reservations = reservations;
         this.standardRate = standardRate;
         this.weekendRate = weekendRate;
     }
@@ -65,10 +63,6 @@ public class Host {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
     }
 
     public void setStandardRate(BigDecimal standardRate) {
@@ -111,9 +105,6 @@ public class Host {
         return postalCode;
     }
 
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
 
     public BigDecimal getStandardRate() {
         return standardRate;

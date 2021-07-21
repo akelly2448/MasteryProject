@@ -30,7 +30,7 @@ public class ReservationService {
         return reservationRepository.findByHostId(hostId);
     }
 
-    public Reservation findReservation(int id){
+    public Reservation findReservation(String hostId, int guestId){
         //maybe refactor for all the times you needed to find a reservation just do it here.
         return null;
     }
@@ -158,7 +158,8 @@ public class ReservationService {
         //check overlapping
         List<Reservation> reservations = reservationRepository.findByHostId(reservation.getHostId());
         for (Reservation r: reservations){
-            if (!(start.isBefore(r.getStartDate()) && end.isBefore(r.getStartDate())) || !(start.isAfter(r.getEndDate()) && end.isAfter(r.getEndDate()))){
+            if (!(start.isBefore(r.getStartDate()) && end.isBefore(r.getStartDate())
+                    || start.isAfter(r.getEndDate()) && end.isAfter(r.getEndDate()))){
                 result.addErrorMessage("Reservation dates cannot overlap.");
             }
         }

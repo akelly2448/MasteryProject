@@ -15,17 +15,26 @@ public class GuestRepositoryDouble implements GuestRepository{
     }
     @Override
     public List<Guest> findAll() {
-        return null;
+        return guests;
     }
 
     @Override
     public Guest findById(int id) {
-        return null;
+        return guests.stream()
+                .filter(h -> h.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     private static Guest makeGuest(){
         Guest guest = new Guest();
         //set guest credentials
+        guest.setId(12);
+        guest.setFirstName("Bojack");
+        guest.setLastName("Horseman");
+        guest.setEmail("bhorseman@website.com");
+        guest.setPhoneNum("(333) 2224444");
+        guest.setState("CA");
         return guest;
     }
 }
