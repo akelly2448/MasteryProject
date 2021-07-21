@@ -35,21 +35,15 @@ public class ReservationService {
         return null;
     }
 
-    //add
-    //update
-    //delete
-    //validation
-    //getReservationList
-        //take hostId
-        //loop through host repo.findAll()
-        //return host's reservation list
 
     public Result<Reservation> add(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);
         if (!result.isSuccess()){
             return result;
         }
-        reservation.setTotal(calculateTotal(reservation));
+        LocalDate start = reservation.getStartDate();
+        LocalDate end = reservation.getEndDate();
+        reservation.setTotal(calculateTotal(start, end, reservation.getHostId()));
 
         result.setPayload(reservationRepository.add(reservation));
         return result;
@@ -68,7 +62,9 @@ public class ReservationService {
             result.addErrorMessage("Reservation not found.");
             return result;
         }
-        reservation.setTotal(calculateTotal(reservation));
+        LocalDate start = reservation.getStartDate();
+        LocalDate end = reservation.getEndDate();
+        reservation.setTotal(calculateTotal(start, end, reservation.getHostId()));
 
         boolean success = reservationRepository.update(reservation);
 
@@ -91,12 +87,11 @@ public class ReservationService {
         return result;
     }
 
-    public BigDecimal calculateTotal (Reservation reservation){
-        BigDecimal standard = hostRepository.findById(reservation.getHostId()).getStandardRate();
-        BigDecimal weekend = hostRepository.findById(reservation.getHostId()).getWeekendRate();
-        LocalDate start = reservation.getStartDate();
-        LocalDate end = reservation.getEndDate();
-        long days = ChronoUnit.DAYS.between(start,end);
+    public BigDecimal calculateTotal (LocalDate start, LocalDate end, String hostId){
+        BigDecimal standard = hostRepository.findById(hostId).getStandardRate();
+        BigDecimal weekend = hostRepository.findById(hostId).getWeekendRate();
+
+        //long days = ChronoUnit.DAYS.between(start,end); might not need this
         int numStandard = 0;
         int numWeekend = 0;
 

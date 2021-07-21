@@ -78,7 +78,6 @@
   * String city
   * String state
   * String postalCode
-  * List<Reservation> reservations  
   * BigDecimal standardRate 
   * BigDecimal weekendRate
   
@@ -144,13 +143,13 @@
 * [x] inject repository
 * [x] public findById()
 * [x] public findByLastName()
-* [ ] create service test and test methods
+* [x] create service test and test methods
 
 ### HostService (~1.5 hrs)
 * [x] inject repository
 * [x] public findById()
 * [x] public findByLastName()
-* [ ] create service test and test methods
+* [x] create service test and test methods
 
 ### ReservationService (~2.5 hrs)
 * [x] inject repository
@@ -178,32 +177,32 @@
 ## UI
 
 ### MainMenuOption (~15 min)
-* Exit
-* View Reservations for Host
-* Make a Reservation
-* Edit a Reservation
-* Cancel a Reservation
+* [ ] Exit
+* [ ] View Reservations for Host
+* [ ] Make a Reservation
+* [ ] Edit a Reservation
+* [ ] Cancel a Reservation
 
 ### ConsoleIO (~30 min)
-* Scanner
-* Invalid input messages
-* public print()
-* public println()
-* public printf()
-* public readString()
-* public readRequiredString()
-* public readLocalDate()
-* public readBigDecimal()  
+* [ ] Scanner
+* [ ] Invalid input messages
+* [ ] public print()
+* [ ] public println()
+* [ ] public printf()
+* [ ] public readString()
+* [ ] public readRequiredString()
+* [ ] public readLocalDate()
+* [ ] public readBigDecimal()  
 * any other read methods with necessary overloads and requirements
 
 ### Controller (~1.5 hrs)
-* inject services
-* inject view
-* public run()
-* private runAppLoop()
-* methods for each menu option
-* add support methods as necessary
+* [ ] inject services
+* [ ] inject view
+* [ ] public run()
+* [ ] private runAppLoop()
+* [ ] methods for each menu option
+* [ ] add support methods as necessary
 
 ### View (~2.5 hrs)
-* public selectMainMenuOption()
+* [ ] public selectMainMenuOption()
 * methods for each menu option
