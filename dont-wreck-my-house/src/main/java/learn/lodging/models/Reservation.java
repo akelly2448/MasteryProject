@@ -12,6 +12,8 @@ public class Reservation {
     private BigDecimal total;
     private String hostId;
 
+    //maybe add entire guest and host
+
     public Reservation(){
 
     }

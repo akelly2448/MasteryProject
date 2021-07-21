@@ -5,10 +5,12 @@ import learn.lodging.data.GuestRepositoryDouble;
 import learn.lodging.data.HostRepositoryDouble;
 import learn.lodging.data.ReservationRepositoryDouble;
 import learn.lodging.models.Guest;
+import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -91,11 +93,53 @@ class ReservationServiceTest {
     }
 
     @Test
-    void shouldUpdateExisting() {
+    void shouldUpdateExisting() throws DataException {
+        List<Reservation> reservations = service.findByHostID("test-host-id");
+        Reservation test = reservations.get(0);
 
+        Result<Reservation> result = service.update(test);
+        boolean success = result.isSuccess();
+
+        assertTrue(success);
     }
 
     @Test
-    void delete() {
+    void shouldNotUpdateMissing() throws DataException {
+        Reservation test = new Reservation();
+        Result<Reservation> result = service.update(test);
+        boolean success = result.isSuccess();
+
+        assertFalse(success);
+    }
+
+    @Test
+    void shouldDeleteExisting() throws DataException {
+        List<Reservation> reservations = service.findByHostID("test-host-id");
+        Reservation test = reservations.get(0);
+
+        Result<Reservation> result = service.delete(test);
+        boolean success = result.isSuccess();
+
+        assertTrue(success);
+    }
+
+    @Test
+    void shouldNotDeleteMissing() throws DataException {
+        Reservation test = new Reservation();
+        Result<Reservation> result = service.delete(test);
+        boolean success = result.isSuccess();
+
+        assertFalse(success);
+    }
+
+    @Test
+    void shouldCalculateProperTotal(){
+        LocalDate start = LocalDate.of(2021,7,23);
+        LocalDate end = LocalDate.of(2021,7,26);
+
+        BigDecimal total = service.calculateTotal(start,end,"test-host-id");
+        BigDecimal expected = new BigDecimal("600.00");
+        assertEquals(expected,total);
+
     }
 }

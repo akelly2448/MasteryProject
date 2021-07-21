@@ -75,7 +75,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> delete(Reservation reservation) throws DataException {
-        Result<Reservation> result = new Result<>();
+        Result<Reservation> result = validate(reservation);
         if (reservation == null){
             result.addErrorMessage("Reservation not found.");
         }
@@ -95,7 +95,7 @@ public class ReservationService {
         int numStandard = 0;
         int numWeekend = 0;
 
-        for (;start.compareTo(end) < 0; start = start.plusDays(1)){
+        for (;start.compareTo(end) <= 0; start = start.plusDays(1)){
             if (start.getDayOfWeek() == DayOfWeek.SATURDAY || start.getDayOfWeek() == DayOfWeek.SUNDAY){
                 numWeekend++;
             }else{
@@ -153,9 +153,11 @@ public class ReservationService {
         //check overlapping
         List<Reservation> reservations = reservationRepository.findByHostId(reservation.getHostId());
         for (Reservation r: reservations){
-            if (!(start.isBefore(r.getStartDate()) && end.isBefore(r.getStartDate())
-                    || start.isAfter(r.getEndDate()) && end.isAfter(r.getEndDate()))){
-                result.addErrorMessage("Reservation dates cannot overlap.");
+            if (r.getId() != reservation.getId()) {
+                if (!(start.isBefore(r.getStartDate()) && end.isBefore(r.getStartDate())
+                        || start.isAfter(r.getEndDate()) && end.isAfter(r.getEndDate()))) {
+                    result.addErrorMessage("Reservation dates cannot overlap.");
+                }
             }
         }
     }
