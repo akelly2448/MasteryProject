@@ -67,6 +67,21 @@ public class ConsoleIO {
         }
     }
 
+    public LocalDate readLocalDate(String prompt, LocalDate current){
+        while (true){
+            String input = readString(prompt);
+            if (input.isBlank()){
+                return current;
+            }
+            try{
+                return LocalDate.parse(input,formatter);
+            } catch (DateTimeParseException ex){
+                println(INVALID_DATE);
+            }
+
+        }
+    }
+
     public LocalDate readLocalDate(String prompt){
         while(true){
             String input = readRequiredString(prompt);

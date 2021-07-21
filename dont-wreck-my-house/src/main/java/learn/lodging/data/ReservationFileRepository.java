@@ -1,5 +1,7 @@
 package learn.lodging.data;
 
+import learn.lodging.models.Guest;
+import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -115,7 +117,17 @@ public class ReservationFileRepository implements ReservationRepository {
         reservation.setId(Integer.parseInt(fields[0]));
         reservation.setStartDate(LocalDate.of(start[0],start[1],start[2]));
         reservation.setEndDate(LocalDate.of(end[0],end[1],end[2]));
-        reservation.setGuestId(Integer.parseInt(fields[3]));
+
+        Guest guest = new Guest();
+        guest.setId(Integer.parseInt(fields[3]));
+        reservation.setGuest(guest);
+        reservation.setGuestId(guest.getId());
+
+        Host host = new Host();
+        host.setId(hostId);
+        reservation.setHost(host);
+        reservation.setHostId(host.getId());
+
         reservation.setTotal(new BigDecimal(fields[4]));
 
         return reservation;

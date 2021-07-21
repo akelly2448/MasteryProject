@@ -4,6 +4,7 @@ import learn.lodging.data.DataException;
 import learn.lodging.domain.GuestService;
 import learn.lodging.domain.HostService;
 import learn.lodging.domain.ReservationService;
+import learn.lodging.domain.Result;
 import learn.lodging.models.Guest;
 import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
@@ -37,7 +38,7 @@ public class Controller {
 
     }
 
-    private void runAppLoop(){
+    private void runAppLoop() throws DataException {
         MainMenuOption option;
         do {
             option = view.selectMainMenuOption();
@@ -60,19 +61,58 @@ public class Controller {
 
     private void viewReservations(){
         view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_HOST.getMessage());
-        List<Reservation> reservations = reservationService.findByHostID(getHost().getId());
-        
+        Host host = getHost();
+        if (host != null){
+            List<Reservation> reservations = reservationService.findByHostID(host.getId());
+            view.displayReservations(reservations);
+        }
+        view.enterToContinue();
     }
 
-    private void createReservation(){
+    private void createReservation() throws DataException {
+        view.displayHeader(MainMenuOption.MAKE_A_RESERVATION.getMessage());
+        Host host = getHost();
+        Guest guest = getGuest();
+        List<Reservation> reservations = reservationService.findByHostID(host.getId());
+        view.displayReservations(reservations);
+
+        Result<Reservation> result = reservationService.add(view.makeReservation(host,guest));
+
+        //maybe refactor a displayResult method in view
+
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Reservation %s created.",result.getPayload().getId());
+            view.displayStatus(true, successMessage);
+        }
 
     }
 
-    private void updateReservation(){
+    private void updateReservation() throws DataException {
+        view.displayHeader(MainMenuOption.EDIT_A_RESERVATION.getMessage());
+        Host host = getHost();
+        Guest guest = getGuest();
+        List<Reservation> reservations = reservationService.findByHostID(host.getId());
+        //view.displayReservations(reservations);
+        Reservation reservation = view.update(reservations);
+        if (reservation == null){
+            return;
+        }
+        Result<Reservation> result = reservationService.update(reservation);
 
+        //maybe refactor a displayResult method in view
+
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Reservation %s updated.",reservation.getId());
+            view.displayStatus(true, successMessage);
+        }
     }
 
     private void deleteReservation(){
+        view.displayHeader(MainMenuOption.CANCEL_A_RESERVATION.getMessage());
 
     }
 

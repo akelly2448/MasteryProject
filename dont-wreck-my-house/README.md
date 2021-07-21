@@ -163,7 +163,7 @@
 * [x] public delete()
 * [x] public calculateTotal()  
 * [x] private validate()
-* [ ] create service test and test methods
+* [x] create service test and test methods
 
 ### Response 
 * [x] private isSuccess()
@@ -177,30 +177,33 @@
 ## UI
 
 ### MainMenuOption (~15 min)
-* [ ] Exit
-* [ ] View Reservations for Host
-* [ ] Make a Reservation
-* [ ] Edit a Reservation
-* [ ] Cancel a Reservation
+* [x] Exit
+* [x] View Reservations for Host
+* [x] Make a Reservation
+* [x] Edit a Reservation
+* [x] Cancel a Reservation
 
 ### ConsoleIO (~30 min)
-* [ ] Scanner
-* [ ] Invalid input messages
-* [ ] public print()
-* [ ] public println()
-* [ ] public printf()
-* [ ] public readString()
-* [ ] public readRequiredString()
-* [ ] public readLocalDate()
+* [x] Scanner
+* [x] Invalid input messages
+* [x] public print()
+* [x] public println()
+* [x] public printf()
+* [x] public readString()
+* [x] public readRequiredString()
+* [x] public readLocalDate()
 * [ ] public readBigDecimal()  
 * any other read methods with necessary overloads and requirements
 
 ### Controller (~1.5 hrs)
-* [ ] inject services
-* [ ] inject view
-* [ ] public run()
-* [ ] private runAppLoop()
-* [ ] methods for each menu option
+* [x] inject services
+* [x] inject view
+* [x] public run()
+* [x] private runAppLoop()
+* [ ] viewReservationsByHost()
+* [ ] createReservation()
+* [ ] editReservation()
+* [ ] deleteReservation()  
 * [ ] add support methods as necessary
 
 ### View (~2.5 hrs)

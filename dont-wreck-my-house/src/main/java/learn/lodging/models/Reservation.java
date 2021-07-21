@@ -8,11 +8,12 @@ public class Reservation {
     private int id;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Guest guest;
     private int guestId;
     private BigDecimal total;
+    private Host host;
     private String hostId;
 
-    //maybe add entire guest and host
 
     public Reservation(){
 
@@ -43,6 +44,10 @@ public class Reservation {
         this.guestId = guestId;
     }
 
+    public void setGuest(Guest guest){this.guest = guest;}
+
+    public void setHost(Host host){this.host = host;}
+
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
@@ -64,6 +69,10 @@ public class Reservation {
     public int getGuestId() {
         return guestId;
     }
+
+    public Guest getGuest() {return guest;}
+
+    public Host getHost() {return host;}
 
     public BigDecimal getTotal() {
         return total;

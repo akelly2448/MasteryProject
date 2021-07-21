@@ -4,6 +4,8 @@ import learn.lodging.data.DataException;
 import learn.lodging.data.GuestRepository;
 import learn.lodging.data.HostRepository;
 import learn.lodging.data.ReservationRepository;
+import learn.lodging.models.Guest;
+import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -25,9 +29,36 @@ public class ReservationService {
         this.hostRepository = hostRepository;
         this.guestRepository = guestRepository;
     }
+    /*
+        public List<Forage> findByDate(LocalDate date) {
+
+        Map<String, Forager> foragerMap = foragerRepository.findAll().stream()
+                .collect(Collectors.toMap(i -> i.getId(), i -> i));
+        Map<Integer, Item> itemMap = itemRepository.findAll().stream()
+                .collect(Collectors.toMap(i -> i.getId(), i -> i));
+
+        List<Forage> result = forageRepository.findByDate(date);
+        for (Forage forage : result) {
+            forage.setForager(foragerMap.get(forage.getForager().getId()));
+            forage.setItem(itemMap.get(forage.getItem().getId()));
+        }
+
+        return result;
+    }
+     */
 
     public List<Reservation> findByHostID(String hostId){
-        return reservationRepository.findByHostId(hostId);
+
+        Map<Integer, Guest> guestMap = guestRepository.findAll().stream().collect(Collectors.toMap(i -> i.getId(), i -> i));
+        Map<String, Host> hostMap = hostRepository.findAll().stream().collect(Collectors.toMap(i -> i.getId(), i -> i));
+
+        List<Reservation> result = reservationRepository.findByHostId(hostId);
+        for (Reservation r: result){
+            r.setGuest(guestMap.get(r.getGuestId()));
+            r.setHost(hostMap.get(r.getHostId()));
+        }
+
+        return result;
     }
 
     public Reservation findReservation(String hostId, int guestId){
@@ -41,6 +72,8 @@ public class ReservationService {
         if (!result.isSuccess()){
             return result;
         }
+        reservation.setGuest(guestRepository.findById(reservation.getGuestId()));
+        reservation.setHost(hostRepository.findById(reservation.getHostId()));
         LocalDate start = reservation.getStartDate();
         LocalDate end = reservation.getEndDate();
         reservation.setTotal(calculateTotal(start, end, reservation.getHostId()));

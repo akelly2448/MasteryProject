@@ -34,7 +34,7 @@ class ReservationFileRepositoryTest {
     void shouldFindByHostId() {
         List<Reservation> reservations = repository.findByHostId("test-host-id");
         assertEquals(1,reservations.size());
-        assertTrue(reservations.get(0).getGuestId() == 24);
+        assertEquals(24, reservations.get(0).getGuestId());
     }
 
     @Test
