@@ -2,6 +2,7 @@ package learn.lodging.ui;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,12 +30,15 @@ public class ConsoleIO {
     public void print(String message){
         System.out.print(message);
     }
+
     public void println(String message){
         System.out.println(message);
     }
+
     public void printf(String format, Object... values){
         System.out.printf(format,values);
     }
+
     public String readString(String prompt){
         print(prompt);
         return console.nextLine();

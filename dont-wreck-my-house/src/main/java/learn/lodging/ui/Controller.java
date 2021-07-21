@@ -10,6 +10,8 @@ import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -75,8 +77,12 @@ public class Controller {
         Guest guest = getGuest();
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         view.displayReservations(reservations);
+        Reservation reservation = view.makeReservation(host,guest);
+        if (!confirmReservation(reservation,host)){
+            return;
+        }
 
-        Result<Reservation> result = reservationService.add(view.makeReservation(host,guest));
+        Result<Reservation> result = reservationService.add(reservation);
 
         //maybe refactor a displayResult method in view
 
@@ -92,13 +98,15 @@ public class Controller {
     private void updateReservation() throws DataException {
         view.displayHeader(MainMenuOption.EDIT_A_RESERVATION.getMessage());
         Host host = getHost();
-        Guest guest = getGuest();
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
-        //view.displayReservations(reservations);
         Reservation reservation = view.update(reservations);
         if (reservation == null){
             return;
         }
+        if (!confirmReservation(reservation,host)){
+            return;
+        }
+
         Result<Reservation> result = reservationService.update(reservation);
 
         //maybe refactor a displayResult method in view
@@ -111,9 +119,24 @@ public class Controller {
         }
     }
 
-    private void deleteReservation(){
+    private void deleteReservation() throws DataException {
         view.displayHeader(MainMenuOption.CANCEL_A_RESERVATION.getMessage());
+        Host host = getHost();
+        List<Reservation> reservations = reservationService.findByHostID(host.getId());
+        Reservation reservation = view.chooseReservation(reservations);
+        if (reservation == null){
+            return;
+        }
+        Result<Reservation> result = reservationService.delete(reservation);
 
+        //maybe refactor a displayResult method in view
+
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Reservation %s deleted.",reservation.getId());
+            view.displayStatus(true, successMessage);
+        }
     }
 
     //support methods
@@ -127,5 +150,16 @@ public class Controller {
         String lastNamePrefix = view.getLastNamePrefix(true);
         List<Host> hosts = hostService.findByLastName(lastNamePrefix);
         return view.chooseHost(hosts);
+    }
+
+    private boolean confirmReservation(Reservation reservation, Host host){
+        boolean isConfirmed = false;
+        if (reservation != null){
+            LocalDate start = reservation.getStartDate();
+            LocalDate end = reservation.getEndDate();
+            BigDecimal total = reservationService.calculateTotal(start,end,host.getId());
+            isConfirmed = view.displaySummary(start,end,total);
+        }
+        return isConfirmed;
     }
 }

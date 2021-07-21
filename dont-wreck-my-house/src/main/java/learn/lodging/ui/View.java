@@ -5,6 +5,7 @@ import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -134,6 +135,14 @@ public class View {
         io.readString("Press [Enter] to continue.");
     }
 
+    public boolean displaySummary(LocalDate start, LocalDate end, BigDecimal total){
+        displayHeader("Summary");
+        io.printf("Start date: %s%n",start);
+        io.printf("End date: %s%n",end);
+        io.printf("Total: $%s%n",total);
+        return io.readBoolean("Confirm Reservation? [y/n]: ");
+    }
+
     public void displayHeader(String message){
         io.println("");
         io.println(message);
@@ -157,6 +166,7 @@ public class View {
     }
 
     public void displayReservations(List<Reservation> reservations){
+        io.println("");
         //id - guest - start - end
         if (reservations.size() == 0){
             io.println("Host does not have any reservations.");
