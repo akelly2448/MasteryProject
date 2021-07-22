@@ -66,7 +66,7 @@ public class Controller {
         Host host = getHost();
         if (host != null){
             List<Reservation> reservations = reservationService.findByHostID(host.getId());
-            view.displayReservations(reservations);
+            view.displayReservations(reservations, host);
         }
         view.enterToContinue();
     }
@@ -75,29 +75,26 @@ public class Controller {
         view.displayHeader(MainMenuOption.MAKE_A_RESERVATION.getMessage());
         Host host = getHost();
         Guest guest = getGuest();
+        if (host == null || guest == null){
+            return;
+        }
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
-        view.displayReservations(reservations);
+        view.displayReservations(reservations, host);
         Reservation reservation = view.makeReservation(host,guest);
         if (!confirmReservation(reservation,host)){
             return;
         }
 
         Result<Reservation> result = reservationService.add(reservation);
-
-        //maybe refactor a displayResult method in view
-
-        if (!result.isSuccess()){
-            view.displayStatus(false,result.getErrorMessages());
-        }else{
-            String successMessage = String.format("Reservation %s created.",result.getPayload().getId());
-            view.displayStatus(true, successMessage);
-        }
-
+        displayResult("Reservation %s created.", reservation, result);
     }
 
     private void updateReservation() throws DataException {
         view.displayHeader(MainMenuOption.EDIT_A_RESERVATION.getMessage());
         Host host = getHost();
+        if (host == null){
+            return;
+        }
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         Reservation reservation = view.update(reservations);
         if (reservation == null){
@@ -108,35 +105,23 @@ public class Controller {
         }
 
         Result<Reservation> result = reservationService.update(reservation);
-
-        //maybe refactor a displayResult method in view
-
-        if (!result.isSuccess()){
-            view.displayStatus(false,result.getErrorMessages());
-        }else{
-            String successMessage = String.format("Reservation %s updated.",reservation.getId());
-            view.displayStatus(true, successMessage);
-        }
+        displayResult("Reservation %s updated.", reservation, result);
     }
 
     private void deleteReservation() throws DataException {
         view.displayHeader(MainMenuOption.CANCEL_A_RESERVATION.getMessage());
         Host host = getHost();
+        if (host == null){
+            return;
+        }
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         Reservation reservation = view.chooseReservation(reservations);
         if (reservation == null){
             return;
         }
+
         Result<Reservation> result = reservationService.delete(reservation);
-
-        //maybe refactor a displayResult method in view
-
-        if (!result.isSuccess()){
-            view.displayStatus(false,result.getErrorMessages());
-        }else{
-            String successMessage = String.format("Reservation %s deleted.",reservation.getId());
-            view.displayStatus(true, successMessage);
-        }
+        displayResult("Reservation %s deleted.", reservation, result);
     }
 
     //support methods
@@ -161,5 +146,14 @@ public class Controller {
             isConfirmed = view.displaySummary(start,end,total);
         }
         return isConfirmed;
+    }
+
+    private void displayResult(String success, Reservation reservation, Result<Reservation> result){
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format(success,reservation.getId());
+            view.displayStatus(true, successMessage);
+        }
     }
 }

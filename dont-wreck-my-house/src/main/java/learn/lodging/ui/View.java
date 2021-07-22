@@ -69,6 +69,7 @@ public class View {
         io.println("");
         if (guests.size() == 0){
             io.println("No guests found");
+            return null;
         }
         int index = 1;
         for (Guest guest: guests.stream().limit(10).collect(Collectors.toList())){
@@ -128,6 +129,9 @@ public class View {
         String message = String.format("Select reservation by the index[0 - %s]: ", index);
 
         index = io.readInt(message, 0, index);
+        if (index <= 0){
+            return null;
+        }
         return reservations.get(index - 1);
     }
 
@@ -147,6 +151,7 @@ public class View {
         io.println("");
         io.println(message);
         io.println("=".repeat(message.length()));
+        io.println("");
     }
 
     public void displayException(Exception ex) {
@@ -165,17 +170,22 @@ public class View {
         }
     }
 
-    public void displayReservations(List<Reservation> reservations){
+    public void displayReservations(List<Reservation> reservations, Host host){
         io.println("");
-        //id - guest - start - end
         if (reservations.size() == 0){
             io.println("Host does not have any reservations.");
             return;
         }
+        String header = String.format("%s's reservations: %s %s, %s",host.getLastName(), host.getAddress(), host.getCity(), host.getState());
+        displayHeader(header);
         //format this table better
+        //a title would be nice
+        //id - last name, first name - start - end
+        io.printf("[%s] | %-10s | %-10s -> %-10s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
         for (Reservation r: reservations){
-            io.printf("[%s] - %s, %s - %s -> %s%n",r.getId(),r.getGuest().getFirstName(),r.getGuest().getLastName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
+            io.printf("[%s] | %10s, %-10s | %-10s -> %-10s|%n",r.getId(),r.getGuest().getLastName(),r.getGuest().getFirstName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
         }
+        io.println("");
     }
 
     private Reservation update(Reservation reservation){
@@ -188,12 +198,5 @@ public class View {
     }
 
     //display hosts/guests
-
-    //display reservation summary
-        //-Guest name
-        //-start and end dates
-        //-total $
-
-
 
 }

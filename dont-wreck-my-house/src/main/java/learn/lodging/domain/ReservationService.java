@@ -84,6 +84,9 @@ public class ReservationService {
 
     public Result<Reservation> update(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);
+        if (!result.isSuccess()){
+            return result;
+        }
         List<Reservation> reservations = reservationRepository.findByHostId(reservation.getHostId());
         Reservation existing = null;
         for (Reservation r: reservations){
@@ -99,6 +102,9 @@ public class ReservationService {
         LocalDate end = reservation.getEndDate();
         reservation.setTotal(calculateTotal(start, end, reservation.getHostId()));
 
+        //need to validate before updating
+
+
         boolean success = reservationRepository.update(reservation);
 
         if (!success){
@@ -109,6 +115,9 @@ public class ReservationService {
 
     public Result<Reservation> delete(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);
+        if (!result.isSuccess()){
+            return result;
+        }
         if (reservation == null){
             result.addErrorMessage("Reservation not found.");
         }

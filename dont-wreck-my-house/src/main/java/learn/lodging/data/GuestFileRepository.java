@@ -52,6 +52,30 @@ public class GuestFileRepository implements GuestRepository {
         }
         return guest;
     }
+    /*    private void writeAll(List<Reservation> reservations, String hostId) throws DataException {
+        try (PrintWriter writer = new PrintWriter(getFilePath(hostId))){
+            writer.println(HEADER);
+
+            for (Reservation r: reservations){
+                writer.println(serialize(r));
+            }
+
+        }catch (FileNotFoundException ex){
+            throw new DataException(ex);
+        }
+    }
+
+     */
+
+    private String serialize(Guest guest){
+        return String.format("%s,%s,%s,%s,%s,%s",
+                guest.getId(),
+                guest.getFirstName(),
+                guest.getLastName(),
+                guest.getEmail(),
+                guest.getPhoneNum(),
+                guest.getState());
+    }
 
     private Guest deserialize(String[] fields){
         Guest guest = new Guest();

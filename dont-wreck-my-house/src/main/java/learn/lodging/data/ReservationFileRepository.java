@@ -59,6 +59,9 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     public boolean update(Reservation reservation) throws DataException {
+        if (reservation == null){
+            return false;
+        }
         List<Reservation> reservations = findByHostId(reservation.getHostId());
         for (int i = 0; i < reservations.size(); i++){
             if (reservations.get(i).getId() == reservation.getId()){
@@ -72,6 +75,9 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     public boolean delete(Reservation reservation) throws DataException {
+        if (reservation == null){
+            return false;
+        }
         List<Reservation> reservations = findByHostId(reservation.getHostId());
         for (int i = 0; i < reservations.size(); i++){
             if (reservations.get(i).getId() == reservation.getId()){
