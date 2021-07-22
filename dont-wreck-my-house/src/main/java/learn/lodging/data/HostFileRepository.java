@@ -5,9 +5,7 @@ import learn.lodging.models.Host;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +52,40 @@ public class HostFileRepository implements HostRepository {
         return host;
     }
 
+    @Override
+    public Host add(Host host) throws DataException {
+        List<Host> hosts = findAll();
+        host.setId(java.util.UUID.randomUUID().toString());
+        hosts.add(host);
+        writeAll(hosts);
+        return host;
+    }
+
+    private void writeAll(List<Host> hosts) throws DataException {
+        try (PrintWriter writer = new PrintWriter(filePath)){
+            writer.println(HEADER);
+            for (Host h: hosts){
+                writer.println(serialize(h));
+            }
+        }catch (FileNotFoundException ex){
+            throw new DataException(ex);
+        }
+
+    }
+
+    private String serialize(Host host){
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                host.getId(),
+                host.getLastName(),
+                host.getEmail(),
+                host.getPhoneNum(),
+                host.getAddress(),
+                host.getCity(),
+                host.getState(),
+                host.getPostalCode(),
+                host.getStandardRate(),
+                host.getWeekendRate());
+    }
 
     private Host deserialize(String[] fields){
         Host host = new Host();

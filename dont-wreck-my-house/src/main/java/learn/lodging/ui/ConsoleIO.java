@@ -3,6 +3,7 @@ package learn.lodging.ui;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -106,6 +107,17 @@ public class ConsoleIO {
                 return false;
             }
             println(IVALID_CONFIRMATION);
+        }
+    }
+
+    public BigDecimal readBigDecimal(String prompt){
+        while(true){
+            String rate = readRequiredString(prompt);
+            try {
+                return new BigDecimal(rate).setScale(2, RoundingMode.UP);
+            } catch (NumberFormatException ex){    //whats the right exception?
+                println(INVALID_NUMBER);
+            }
         }
     }
 }

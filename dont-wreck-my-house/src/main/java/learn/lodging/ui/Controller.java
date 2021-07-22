@@ -57,6 +57,12 @@ public class Controller {
                 case CANCEL_A_RESERVATION:
                     deleteReservation();
                     break;
+                case ADD_A_GUEST:
+                    addGuest();
+                    break;
+                case ADD_A_HOST:
+                    addHost();
+                    break;
             }
         }while (option != MainMenuOption.EXIT);
     }
@@ -122,6 +128,30 @@ public class Controller {
 
         Result<Reservation> result = reservationService.delete(reservation);
         displayResult("Reservation %s deleted.", reservation, result);
+    }
+
+    private void addGuest() throws DataException {
+        view.displayHeader(MainMenuOption.ADD_A_GUEST.getMessage());
+        Guest guest = view.makeGuest();
+        Result<Guest> result = guestService.add(guest);
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Guest %s created.", guest.getId());
+            view.displayStatus(true, successMessage);
+        }
+    }
+
+    private void addHost() throws DataException {
+        view.displayHeader(MainMenuOption.ADD_A_HOST.getMessage());
+        Host host = view.makeHost();
+        Result<Host> result = hostService.add(host);
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Host %s created.", host.getId());
+            view.displayStatus(true, successMessage);
+        }
     }
 
     //support methods

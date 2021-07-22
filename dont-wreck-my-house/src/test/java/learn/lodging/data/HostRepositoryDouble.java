@@ -27,6 +27,12 @@ public class HostRepositoryDouble implements HostRepository{
                 .orElse(null);
     }
 
+    @Override
+    public Host add(Host host) throws DataException {
+        hosts.add(host);
+        return host;
+    }
+
     private static Host makeHost(){
         Host host = new Host();
         //set host credentials

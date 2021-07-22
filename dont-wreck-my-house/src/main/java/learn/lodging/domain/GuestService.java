@@ -37,6 +37,7 @@ public class GuestService {
         if (!result.isSuccess()){
             return result;
         }
+        guest.setPhoneNum(formatPhoneNumber(guest.getPhoneNum()));
         result.setPayload(repository.add(guest));
         return result;
     }
@@ -78,7 +79,7 @@ public class GuestService {
     private void validateInputs(Guest guest, Result<Guest> result){
 
         if (!(guest.getEmail().contains("@") && guest.getEmail().contains("."))){
-            result.addErrorMessage("Email must be a valid email address (contains @ and .).");
+            result.addErrorMessage("Email must be a valid email address (containing '@' and '.').");
         }
 
         boolean isValidNum = true;
@@ -87,14 +88,20 @@ public class GuestService {
                 isValidNum = false;
             }
         }
-        if (!isValidNum || guest.getPhoneNum().length() > 10){
-            result.addErrorMessage("Phone # must a valid phone #");
+        if (!isValidNum || guest.getPhoneNum().length() != 10){
+            result.addErrorMessage("Phone # must a valid phone #.");
         }
 
         if (!ALL_STATES_ACRONYMS.contains(guest.getState())){
             result.addErrorMessage("State must be a valid US state acronym.");
         }
 
+    }
+
+    private String formatPhoneNumber(String phoneNum){
+        String a = phoneNum.substring(0,3);
+        String b = phoneNum.substring(3);
+        return "("+a+") "+b;
     }
 
     //check for unique?

@@ -28,8 +28,8 @@ public class GuestRepositoryDouble implements GuestRepository{
 
     @Override
     public Guest add(Guest guest) throws DataException {
-        //test this
-        return null;
+        guests.add(guest);
+        return guest;
     }
 
     private static Guest makeGuest(){

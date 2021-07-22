@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class View {
 
     private final ConsoleIO io;
+    private final int NAME_LIST_LENGTH = 25;  //control size of list displayed when choosing a host or guest
 
     public View(ConsoleIO io){
         this.io = io;
@@ -41,6 +42,31 @@ public class View {
         reservation.setStartDate(io.readLocalDate("Start date [MM/dd/yyyy]:"));
         reservation.setEndDate(io.readLocalDate("End date [MM/dd/yyyy]:"));
         return reservation;
+    }
+
+    public Guest makeGuest(){
+        Guest guest = new Guest();
+        guest.setFirstName(io.readRequiredString("Enter First Name: "));
+        guest.setLastName(io.readRequiredString("Enter Last Name: "));
+        guest.setEmail(io.readRequiredString("Enter Email Address: "));
+        guest.setPhoneNum(io.readRequiredString("Enter Phone #: "));
+        guest.setState(io.readRequiredString("Enter State: "));
+        return guest;
+    }
+
+    public Host makeHost(){
+        Host host = new Host();
+        host.setLastName(io.readRequiredString("Enter Last Name: "));
+        host.setEmail(io.readRequiredString("Enter Email Address: "));
+        host.setPhoneNum(io.readRequiredString("Enter Phone #: "));
+        host.setAddress(io.readRequiredString("Enter Street Address: "));
+        host.setCity(io.readRequiredString("Enter City: "));
+        host.setState(io.readRequiredString("Enter State: "));
+        host.setPostalCode(io.readRequiredString("Enter Postal Code: "));
+        host.setStandardRate(io.readBigDecimal("Enter Standard Rate: "));
+        host.setWeekendRate(io.readBigDecimal("Enter Weekend Rate: "));
+
+        return host;
     }
 
     public Reservation update(List<Reservation> reservations){
@@ -72,13 +98,13 @@ public class View {
             return null;
         }
         int index = 1;
-        for (Guest guest: guests.stream().limit(10).collect(Collectors.toList())){
+        for (Guest guest: guests.stream().limit(NAME_LIST_LENGTH).collect(Collectors.toList())){
             io.printf("[%s] - %s %s%n", index++, guest.getFirstName(), guest.getLastName());
         }
         index--;
 
-        if (guests.size() > 10){
-            io.println("More than 10 guests found. Showing first 10. Please refine search.");
+        if (guests.size() > NAME_LIST_LENGTH){
+            io.printf("More than %s guests found. Showing first %s. Please refine search.%n",NAME_LIST_LENGTH,NAME_LIST_LENGTH);
         }
         io.println("[0] Exit");
         String message = String.format("Select a guest by their index[0 - %s]: ", index);
@@ -97,13 +123,13 @@ public class View {
             return null;
         }
         int index = 1;
-        for (Host host: hosts.stream().limit(10).collect(Collectors.toList())){
+        for (Host host: hosts.stream().limit(NAME_LIST_LENGTH).collect(Collectors.toList())){
             io.printf("[%s] - %s %s%n", index++, host.getLastName(), host.getEmail());
         }
         index--;
 
-        if (hosts.size() > 10){
-            io.println("More than 10 hosts found. Showing first 10. Please refine search.");
+        if (hosts.size() > NAME_LIST_LENGTH){
+            io.printf("More than %s hosts found. Showing first %s. Please refine search.%n",NAME_LIST_LENGTH,NAME_LIST_LENGTH);
         }
         io.println("[0] Exit");
         String message = String.format("Select a host by their index[0 - %s]: ", index);

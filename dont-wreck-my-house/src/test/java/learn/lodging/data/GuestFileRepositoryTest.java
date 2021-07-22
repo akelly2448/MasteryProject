@@ -32,4 +32,18 @@ class GuestFileRepositoryTest {
         assertEquals(1, all.size());
         assertTrue(all.get(0).getFirstName().equals("Andrew"));
     }
+
+    @Test
+    void shouldAdd() throws DataException {
+        Guest guest = new Guest();
+        guest.setFirstName("Andrew");
+        guest.setLastName("Kelly");
+        guest.setEmail("akelly@gmail.com");
+        guest.setPhoneNum("2223335555");
+        guest.setState("PA");
+
+        Guest actual = repository.add(guest);
+        assertNotNull(actual);
+        assertEquals("PA", actual.getState());
+    }
 }
