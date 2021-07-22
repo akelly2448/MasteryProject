@@ -26,6 +26,12 @@ public class GuestRepositoryDouble implements GuestRepository{
                 .orElse(null);
     }
 
+    @Override
+    public Guest add(Guest guest) throws DataException {
+        //test this
+        return null;
+    }
+
     private static Guest makeGuest(){
         Guest guest = new Guest();
         //set guest credentials

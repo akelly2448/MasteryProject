@@ -4,10 +4,7 @@ import learn.lodging.models.Guest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,20 +49,45 @@ public class GuestFileRepository implements GuestRepository {
         }
         return guest;
     }
-    /*    private void writeAll(List<Reservation> reservations, String hostId) throws DataException {
-        try (PrintWriter writer = new PrintWriter(getFilePath(hostId))){
+    /*
+    @Override
+    public Reservation add(Reservation reservation) throws DataException {
+        List<Reservation> reservations = findByHostId(reservation.getHostId());
+        int nextId = 0;
+        for (Reservation r: reservations){
+            nextId = Math.max(nextId,r.getId());
+        }
+        nextId++;
+        reservation.setId(nextId);
+        reservations.add(reservation);
+        writeAll(reservations, reservation.getHostId());
+        return reservation;
+    }
+     */
+    @Override
+    public Guest add(Guest guest) throws DataException {
+        List<Guest> guests = findAll();
+        int nextId = 0;
+        for (Guest g: guests){
+            nextId = Math.max(nextId,g.getId());
+        }
+        nextId++;
+        guest.setId(nextId);
+        guests.add(guest);
+        writeAll(guests);
+        return guest;
+    }
+
+    private void writeAll(List<Guest> guests) throws DataException {
+        try (PrintWriter writer = new PrintWriter(filePath)){
             writer.println(HEADER);
-
-            for (Reservation r: reservations){
-                writer.println(serialize(r));
+            for (Guest g: guests){
+                writer.println(serialize(g));
             }
-
         }catch (FileNotFoundException ex){
             throw new DataException(ex);
         }
     }
-
-     */
 
     private String serialize(Guest guest){
         return String.format("%s,%s,%s,%s,%s,%s",
