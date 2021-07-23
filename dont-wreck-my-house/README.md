@@ -2,46 +2,46 @@
 
 ## General Requirements
 * The administrator may view existing reservations for a host.
-  * [ ] The user may enter a value that uniquely identifies a host or they can search for a host and pick one out of a list.
-  * [ ] If the host is not found, display a message.
-  * [ ] If the host has no reservations, display a message.
-  * [ ] Show all reservations for that host.
-  * [ ] Show useful information for each reservation: the guest, dates, totals, etc.
-  * [ ] Sort reservations in a meaningful way.
+  * [x] The user may enter a value that uniquely identifies a host or they can search for a host and pick one out of a list.
+  * [x] If the host is not found, display a message.
+  * [x] If the host has no reservations, display a message.
+  * [x] Show all reservations for that host.
+  * [x] Show useful information for each reservation: the guest, dates, totals, etc.
+  * [ ] Sort reservations in and appealing meaningful way.
   
 * The administrator may create a reservation for a guest with a host.
   * Books accommodations for a guest at a host.
-    * [ ] The user may enter a value that uniquely identifies a guest or they can search for a guest and pick one out of a list.
-    * [ ] The user may enter a value that uniquely identifies a host or they can search for a host and pick one out of a list.
-    * [ ] Show all future reservations for that host so the administrator can choose available dates.
-    * [ ] Enter a start and end date for the reservation.
-    * [ ] Calculate the total, display a summary, and ask the user to confirm. The reservation total is based on the host's 
+    * [x] The user may enter a value that uniquely identifies a guest or they can search for a guest and pick one out of a list.
+    * [x] The user may enter a value that uniquely identifies a host or they can search for a host and pick one out of a list.
+    * [x] Show all future reservations for that host so the administrator can choose available dates.
+    * [x] Enter a start and end date for the reservation.
+    * [x] Calculate the total, display a summary, and ask the user to confirm. The reservation total is based on the host's 
       standard rate and weekend rate. For each day in the reservation, determine if it is a weekday or a weekend. If it's a 
       weekday, the standard rate applies. If it's a weekend, the weekend rate applies.
-    * [ ] On confirmation, save the reservation.
+    * [x] On confirmation, save the reservation.
   * Validation
-    * [ ] Guest, host, and start and end dates are required.
-    * [ ] The guest and host must already exist in the "database". Guests and hosts cannot be created.
-    * [ ] The start date must come before the end date.
-    * [ ] The reservation may never overlap existing reservation dates.
-    * [ ] The start date must be in the future.
+    * [x] Guest, host, and start and end dates are required.
+    * [x] The guest and host must already exist in the "database". Guests and hosts cannot be created.
+    * [x] The start date must come before the end date.
+    * [x] The reservation may never overlap existing reservation dates.
+    * [x] The start date must be in the future.
   
 * The administrator may edit existing reservations.
   * Edits an existing reservation.
-    * [ ] Find a reservation.
-    * [ ] Start and end date can be edited. No other data can be edited.
-    * [ ] Recalculate the total, display a summary, and ask the user to confirm. 
+    * [x] Find a reservation.
+    * [x] Start and end date can be edited. No other data can be edited.
+    * [x] Recalculate the total, display a summary, and ask the user to confirm. 
   * Validation
-    * [ ] Guest, host, and start and end dates are required.
-    * [ ] The guest and host must already exist in the "database". Guests and hosts cannot be created.
-    * [ ] The start date must come before the end date.
-    * [ ] The reservation may never overlap existing reservation dates.
+    * [x] Guest, host, and start and end dates are required.
+    * [x] The guest and host must already exist in the "database". Guests and hosts cannot be created.
+    * [x] The start date must come before the end date.
+    * [x] The reservation may never overlap existing reservation dates.
   
 * The administrator may cancel a future reservation.
   * Cancel a future reservation.
-    * [ ] Find a reservation.
+    * [x] Find a reservation.
     * [ ] Only future reservations are shown.
-    * [ ] On success, display a message.
+    * [x] On success, display a message.
   * Validation
     * [ ] You cannot cancel a reservation that's in the past.
 
@@ -192,7 +192,8 @@
 * [x] public readString()
 * [x] public readRequiredString()
 * [x] public readLocalDate()
-* [ ] public readBigDecimal()  
+* [X] readInt() and overloaded sibling 
+* [x] public readBigDecimal()
 * any other read methods with necessary overloads and requirements
 
 ### Controller (~1.5 hrs)
@@ -200,12 +201,24 @@
 * [x] inject view
 * [x] public run()
 * [x] private runAppLoop()
-* [ ] viewReservationsByHost()
-* [ ] createReservation()
-* [ ] editReservation()
-* [ ] deleteReservation()  
-* [ ] add support methods as necessary
+* [x] viewReservationsByHost()
+* [x] createReservation()
+* [x] editReservation()
+* [x] deleteReservation()  
+* [x] add support methods as necessary
 
 ### View (~2.5 hrs)
-* [ ] public selectMainMenuOption()
+* [x] public selectMainMenuOption()
+* [x] display methods
+* [x] choose methods (guest, host, reservation)  
 * methods for each menu option
+
+
+### Stretch Goals
+* [x] add a guest
+* [x] add a host
+* [ ] update a guest
+* [ ] update a host
+* [ ] delete a guest
+* [ ] delete a host
+* [ ] display reservations for a guest

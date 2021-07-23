@@ -115,7 +115,7 @@ public class ConsoleIO {
             String rate = readRequiredString(prompt);
             try {
                 return new BigDecimal(rate).setScale(2, RoundingMode.UP);
-            } catch (NumberFormatException ex){    //whats the right exception?
+            } catch (NumberFormatException ex){
                 println(INVALID_NUMBER);
             }
         }

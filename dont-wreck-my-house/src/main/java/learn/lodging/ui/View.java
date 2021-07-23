@@ -207,9 +207,9 @@ public class View {
         //format this table better
         //a title would be nice
         //id - last name, first name - start - end
-        io.printf("[%s] | %-10s | %-10s -> %-10s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
+        io.printf("[%s] |  %-12s  | %12s -> %-12s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
         for (Reservation r: reservations){
-            io.printf("[%s] | %10s, %-10s | %-10s -> %-10s|%n",r.getId(),r.getGuest().getLastName(),r.getGuest().getFirstName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
+            io.printf("[%s]     | %10s, %-10s | %12s -> %-12s |%n",r.getId(),r.getGuest().getLastName(),r.getGuest().getFirstName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
         }
         io.println("");
     }
