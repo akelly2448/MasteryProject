@@ -29,23 +29,6 @@ public class ReservationService {
         this.hostRepository = hostRepository;
         this.guestRepository = guestRepository;
     }
-    /*
-        public List<Forage> findByDate(LocalDate date) {
-
-        Map<String, Forager> foragerMap = foragerRepository.findAll().stream()
-                .collect(Collectors.toMap(i -> i.getId(), i -> i));
-        Map<Integer, Item> itemMap = itemRepository.findAll().stream()
-                .collect(Collectors.toMap(i -> i.getId(), i -> i));
-
-        List<Forage> result = forageRepository.findByDate(date);
-        for (Forage forage : result) {
-            forage.setForager(foragerMap.get(forage.getForager().getId()));
-            forage.setItem(itemMap.get(forage.getItem().getId()));
-        }
-
-        return result;
-    }
-     */
 
     public List<Reservation> findByHostID(String hostId){
 
@@ -80,6 +63,14 @@ public class ReservationService {
 
         result.setPayload(reservationRepository.add(reservation));
         return result;
+    }
+
+    public boolean updateHost(Host host) throws DataException {
+        return reservationRepository.updateHost(host);
+    }
+
+    public boolean updateGuest(Guest guest) throws DataException {
+        return reservationRepository.updateGuest(guest);
     }
 
     public Result<Reservation> update(Reservation reservation) throws DataException {

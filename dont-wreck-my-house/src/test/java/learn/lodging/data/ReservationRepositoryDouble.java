@@ -1,5 +1,7 @@
 package learn.lodging.data;
 
+import learn.lodging.models.Guest;
+import learn.lodging.models.Host;
 import learn.lodging.models.Reservation;
 
 import java.math.BigDecimal;
@@ -48,5 +50,22 @@ public class ReservationRepositoryDouble implements ReservationRepository{
     @Override
     public boolean delete(Reservation reservation) throws DataException {
         return findByHostId(reservation.getHostId()) != null;
+    }
+
+    @Override
+    public boolean updateGuest(Guest guest) throws DataException {
+        return findByGuestId(guest.getId()) != null;
+    }
+
+    @Override
+    public List<Reservation> findByGuestId(int guestId) {
+        return reservations.stream()
+                .filter(r -> r.getGuestId() == guestId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean updateHost(Host host) throws DataException {
+        return false;
     }
 }

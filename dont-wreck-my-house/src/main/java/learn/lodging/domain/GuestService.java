@@ -42,6 +42,30 @@ public class GuestService {
         return result;
     }
 
+    public Result<Guest> update(Guest guest) throws DataException {
+        Result<Guest> result = validate(guest);
+        if (!result.isSuccess()){
+            return result;
+        }
+        List<Guest> guests = repository.findAll();
+        Guest existing = null;
+        for (Guest g: guests){
+            if (g.getId() == guest.getId()){
+                existing = g;
+            }
+        }
+        if (existing == null){
+            result.addErrorMessage("Guest not found.");
+            return result;
+        }
+        guest.setPhoneNum(formatPhoneNumber(guest.getPhoneNum()));
+        boolean success = repository.update(guest);
+        if (!success){
+            result.addErrorMessage("Guest not found.");
+        }
+        return result;
+    }
+
     private Result<Guest> validate(Guest guest){
         Result<Guest> result = validateNulls(guest);
         if (!result.isSuccess()){

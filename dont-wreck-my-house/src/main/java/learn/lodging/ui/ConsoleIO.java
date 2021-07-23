@@ -40,6 +40,15 @@ public class ConsoleIO {
         System.out.printf(format,values);
     }
 
+    public String readString(String prompt, String current){
+        print(prompt);
+        String input = console.nextLine();
+        if (input.isBlank()){
+            return current;
+        }else{
+            return input;
+        }
+    }
     public String readString(String prompt){
         print(prompt);
         return console.nextLine();
@@ -107,6 +116,21 @@ public class ConsoleIO {
                 return false;
             }
             println(IVALID_CONFIRMATION);
+        }
+    }
+
+    public BigDecimal readBigDecimal(String prompt, BigDecimal current){
+        String rate = readString(prompt);
+        if (rate.isBlank()){
+            return current;
+        }else{
+            while(true){
+                try {
+                    return new BigDecimal(rate).setScale(2, RoundingMode.UP);
+                } catch (NumberFormatException ex){
+                    println(INVALID_NUMBER);
+                }
+            }
         }
     }
 

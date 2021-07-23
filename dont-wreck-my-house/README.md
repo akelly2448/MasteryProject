@@ -218,7 +218,11 @@
 * [x] add a guest
 * [x] add a host
 * [ ] update a guest
+  * can only change email, phone, and state
+  * update any reservations associated with guest
 * [ ] update a host
+  * can update everything except last name
+  * update any reservations
 * [ ] delete a guest
 * [ ] delete a host
 * [ ] display reservations for a guest

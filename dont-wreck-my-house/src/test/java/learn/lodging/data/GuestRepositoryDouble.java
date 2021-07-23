@@ -32,6 +32,18 @@ public class GuestRepositoryDouble implements GuestRepository{
         return guest;
     }
 
+    @Override
+    public boolean update(Guest guest) throws DataException {
+        int index = 0;
+        for (int i = 0; i < guests.size(); i++){
+            if (guests.get(i).getId() == guest.getId()){
+                guests.set(i,guest);
+                index = i;
+            }
+        }
+        return guests.get(index).equals(guest);
+    }
+
     private static Guest makeGuest(){
         Guest guest = new Guest();
         //set guest credentials
@@ -39,7 +51,7 @@ public class GuestRepositoryDouble implements GuestRepository{
         guest.setFirstName("Bojack");
         guest.setLastName("Horseman");
         guest.setEmail("bhorseman@website.com");
-        guest.setPhoneNum("(333) 2224444");
+        guest.setPhoneNum("3332224444");
         guest.setState("CA");
         return guest;
     }

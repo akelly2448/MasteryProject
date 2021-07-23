@@ -1,5 +1,6 @@
 package learn.lodging.data;
 
+import learn.lodging.models.Guest;
 import learn.lodging.models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,6 +87,23 @@ class ReservationFileRepositoryTest {
     void shouldNotDeleteMissing() throws DataException {
         Reservation test = new Reservation(3,LocalDate.of(2021,01,01),LocalDate.of(2021,02,02),50,new BigDecimal("1000.00"), "test-host-id");
         boolean success = repository.delete(test);
+        assertFalse(success);
+    }
+
+    @Test
+    void shouldUpdateGuestReservations() throws DataException {
+        List<Reservation> reservations = repository.findByHostId("test-host-id");
+        Reservation test = reservations.get(0);
+        Guest guest = test.getGuest();
+        guest.setPhoneNum("0009990909");
+        boolean success = repository.updateGuest(guest);
+        assertTrue(success);
+    }
+
+    @Test
+    void shouldNotUpdateGuestWithoutReservation() throws DataException {
+        Guest guest = new Guest(5,"test","guest","email","phone","state");
+        boolean success = repository.updateGuest(guest);
         assertFalse(success);
     }
 }

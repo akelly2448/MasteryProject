@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,6 +44,77 @@ public class ReservationFileRepository implements ReservationRepository {
             //don't throw on read
         }
         return reservations;
+    }
+
+    @Override
+    public List<Reservation> findByGuestId(int guestId){
+        //loop through res directory
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        Path dir = Paths.get(directory);
+
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)){
+            for (Path path: stream){
+                String fileName = path.toString();
+                int start = directory.length() + 1; //remove path
+                int index = fileName.length() - 4; //remove ".csv" to just get hostId
+                String hostId = fileName.substring(start,index);
+                List<Reservation> reservationList = findByHostId(hostId);
+
+                for (Reservation r: reservationList){
+                    if (r.getGuestId() == guestId){
+                        reservations.add(r);
+                    }
+                }
+            }
+        } catch (IOException ex){
+
+        }
+        return reservations;
+
+    }
+
+    @Override
+    public boolean updateHost(Host host) throws DataException {
+        if (host == null){
+            return false;
+        }
+        boolean success;
+        List<Reservation> hostReservations = findByHostId(host.getId());
+        if (hostReservations.size() == 0){
+            return false;
+        }
+        for (int i = 0; i < hostReservations.size(); i++){
+
+        }
+        for (Reservation r: hostReservations){
+            r.setHost(host);
+            success = update(r);
+            if (!success){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateGuest(Guest guest) throws DataException {
+        if (guest == null){
+            return false;
+        }
+        boolean success;
+        List<Reservation> guestReservations = findByGuestId(guest.getId());
+        if (guestReservations.size() == 0){
+            return false;
+        }
+        for (Reservation r: guestReservations){
+            r.setGuest(guest);
+            success = update(r);
+            if (!success){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

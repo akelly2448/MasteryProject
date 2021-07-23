@@ -43,6 +43,30 @@ public class HostService {
         return result;
     }
 
+    public Result<Host> update(Host host) throws DataException {
+        Result<Host> result = validate(host);
+        if (!result.isSuccess()){
+            return result;
+        }
+        List<Host> hosts = repository.findAll();
+        Host existing = null;
+        for (Host h: hosts){
+            if (h.getId().equals(host.getId())){
+                existing = h;
+            }
+        }
+        if (existing == null){
+            result.addErrorMessage("Host not found.");
+            return result;
+        }
+        host.setPhoneNum(formatPhoneNumber(host.getPhoneNum()));
+        boolean success = repository.update(host);
+        if (!success){
+            result.addErrorMessage("Host not found.");
+        }
+        return result;
+    }
+
     private Result<Host> validate(Host host){
         Result<Host> result = validateNulls(host);
         if (!result.isSuccess()){

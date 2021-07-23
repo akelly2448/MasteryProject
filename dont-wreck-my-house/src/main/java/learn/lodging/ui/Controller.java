@@ -60,8 +60,14 @@ public class Controller {
                 case ADD_A_GUEST:
                     addGuest();
                     break;
+                case EDIT_A_GUEST:
+                    updateGuest();
+                    break;
                 case ADD_A_HOST:
                     addHost();
+                    break;
+                case EDIT_A_HOST:
+
                     break;
             }
         }while (option != MainMenuOption.EXIT);
@@ -102,7 +108,7 @@ public class Controller {
             return;
         }
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
-        Reservation reservation = view.update(reservations);
+        Reservation reservation = view.updateReservation(reservations);
         if (reservation == null){
             return;
         }
@@ -142,6 +148,23 @@ public class Controller {
         }
     }
 
+    private void updateGuest() throws DataException {
+        view.displayHeader(MainMenuOption.EDIT_A_GUEST.getMessage());
+        Guest guest = getGuest();
+        if (guest == null){
+            return;
+        }
+        guest = view.updateGuest(guest);
+        Result<Guest> result = guestService.update(guest);
+        boolean resRepUpdated = reservationService.updateGuest(guest);
+        if (result.isSuccess() && resRepUpdated){
+            String successMessage = String.format("Guest %s updated.", guest.getId());
+            view.displayStatus(true, successMessage);
+        }else{
+            view.displayStatus(false,result.getErrorMessages());
+        }
+    }
+
     private void addHost() throws DataException {
         view.displayHeader(MainMenuOption.ADD_A_HOST.getMessage());
         Host host = view.makeHost();
@@ -151,6 +174,23 @@ public class Controller {
         }else{
             String successMessage = String.format("Host %s created.", host.getId());
             view.displayStatus(true, successMessage);
+        }
+    }
+
+    private void updateHost() throws DataException {
+        view.displayHeader(MainMenuOption.EDIT_A_HOST.getMessage());
+        Host host = getHost();
+        if (host == null){
+            return;
+        }
+        host = view.updateHost(host);
+        Result<Host> result = hostService.update(host);
+        boolean resRepUpdated = reservationService.updateHost(host);
+        if (result.isSuccess() && resRepUpdated){
+            String successMessage = String.format("Host %s updated.", host.getId());
+            view.displayStatus(true, successMessage);
+        }else{
+            view.displayStatus(false,result.getErrorMessages());
         }
     }
 

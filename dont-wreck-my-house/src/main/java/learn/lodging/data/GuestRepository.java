@@ -11,4 +11,6 @@ public interface GuestRepository {
     Guest findById(int id);
 
     Guest add(Guest guest) throws DataException;
+
+    boolean update(Guest guest) throws DataException;
 }

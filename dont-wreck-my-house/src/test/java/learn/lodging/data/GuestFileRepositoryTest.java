@@ -1,5 +1,6 @@
 package learn.lodging.data;
 
+import learn.lodging.domain.Result;
 import learn.lodging.models.Guest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,5 +46,20 @@ class GuestFileRepositoryTest {
         Guest actual = repository.add(guest);
         assertNotNull(actual);
         assertEquals("PA", actual.getState());
+    }
+
+    @Test
+    void shouldUpdateExisting() throws DataException {
+        Guest guest = repository.findById(1);
+        guest.setPhoneNum("9998887700");
+        boolean success = repository.update(guest);
+        assertTrue(success);
+    }
+
+    @Test
+    void shouldNotUpdateMissing() throws DataException {
+        Guest guest = new Guest();
+        boolean success = repository.update(guest);
+        assertFalse(success);
     }
 }

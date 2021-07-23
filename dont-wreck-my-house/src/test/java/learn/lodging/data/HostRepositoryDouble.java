@@ -33,6 +33,11 @@ public class HostRepositoryDouble implements HostRepository{
         return host;
     }
 
+    @Override
+    public boolean update(Host host) throws DataException {
+        return false;
+    }
+
     private static Host makeHost(){
         Host host = new Host();
         //set host credentials

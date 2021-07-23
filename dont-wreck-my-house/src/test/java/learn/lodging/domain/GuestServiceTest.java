@@ -95,4 +95,27 @@ class GuestServiceTest {
         Result<Guest> result = service.add(test);
         assertFalse(result.isSuccess());
     }
+
+    @Test
+    void shouldUpdateValid() throws DataException {
+        Guest bojack = service.findById(12);
+        bojack.setEmail("newemail@web.com");
+        Result<Guest> result = service.update(bojack);
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateInvalid() throws DataException {
+        Guest bojack = service.findById(12);
+        bojack.setPhoneNum("invalid");
+        Result<Guest> result = service.update(bojack);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateMissing() throws DataException {
+        Guest test = new Guest(1,"test","guest","test@email.com","2221113344","MD");
+        Result<Guest> result = service.update(test);
+        assertFalse(result.isSuccess());
+    }
 }

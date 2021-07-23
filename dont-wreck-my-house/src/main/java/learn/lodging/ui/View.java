@@ -69,15 +69,47 @@ public class View {
         return host;
     }
 
-    public Reservation update(List<Reservation> reservations){
+    public Reservation updateReservation(List<Reservation> reservations){
         Reservation reservation = chooseReservation(reservations);
         if (reservation != null){
             io.println("");
             io.printf("Editing Reservation %s%n", reservation.getId());
             io.println("");
-            update(reservation);
+            updateReservation(reservation);
         }
         return reservation;
+    }
+
+    public Guest updateGuest(Guest guest){
+        io.println("");
+        io.printf("Editing Guest %s%n", guest.getId());
+        io.println("");
+
+        guest.setFirstName(io.readString("Enter First Name: ", guest.getFirstName()));
+        guest.setLastName(io.readString("Enter Last Name: ", guest.getLastName()));
+        guest.setEmail(io.readString("Enter Email Address: ", guest.getEmail()));
+        //fix phone #: (###) ####### -> ##########
+        guest.setPhoneNum(io.readString("Enter Phone #: ", deserializePhoneNum(guest.getPhoneNum())));
+        guest.setState(io.readString("Enter State: ", guest.getState()));
+        return guest;
+    }
+
+    public Host updateHost(Host host){
+        io.println("");
+        io.printf("Editing Host %s", host.getId());
+        io.println("");
+
+        host.setLastName(io.readString("Enter Last Name: ", host.getLastName()));
+        host.setEmail(io.readString("Enter Email Address: ", host.getEmail()));
+        host.setPhoneNum(io.readString("Enter Phone #: ", deserializePhoneNum(host.getPhoneNum())));
+        host.setAddress(io.readString("Enter Street Address: ", host.getAddress()));
+        host.setCity(io.readString("Enter City: ", host.getCity()));
+        host.setState(io.readString("Enter State: ", host.getState()));
+        host.setPostalCode(io.readString("Enter Postal Code: ", host.getPostalCode()));
+        host.setStandardRate(io.readBigDecimal("Enter Standard Rate: ", host.getStandardRate()));
+        host.setWeekendRate(io.readBigDecimal("Enter Weekend Rate: ", host.getWeekendRate()));
+        return host;
+
     }
 
     public String getLastNamePrefix(boolean isHost) {
@@ -87,9 +119,6 @@ public class View {
             return io.readRequiredString("Guest last name starts with: ");
         }
     }
-
-    //public guest/host chooseGuest/Host(List)
-    //looks like we should really implement some inheritance here
 
     public Guest chooseGuest(List<Guest> guests){
         io.println("");
@@ -207,20 +236,32 @@ public class View {
         //format this table better
         //a title would be nice
         //id - last name, first name - start - end
-        io.printf("[%s] |  %-12s  | %12s -> %-12s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
+        io.printf("[%s] |   %-13s  | %12s -> %-12s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
         for (Reservation r: reservations){
-            io.printf("[%s]     | %10s, %-10s | %12s -> %-12s |%n",r.getId(),r.getGuest().getLastName(),r.getGuest().getFirstName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
+            io.printf("[%s]     | %11s, %-11s | %12s -> %-12s |%n",r.getId(),r.getGuest().getLastName(),r.getGuest().getFirstName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
         }
         io.println("");
     }
 
-    private Reservation update(Reservation reservation){
+    private Reservation updateReservation(Reservation reservation){
         LocalDate start = io.readLocalDate("Start date [MM/dd/yyyy]:", reservation.getStartDate());
         reservation.setStartDate(start);
         LocalDate end = io.readLocalDate("End date [MM/dd/yyyy]: ", reservation.getEndDate());
         reservation.setEndDate(end);
 
         return reservation;
+    }
+
+    private String deserializePhoneNum(String phoneNum){
+        char[] digits = new char[10];
+        int index = 0;
+        for (int i = 0; i < phoneNum.length(); i++){
+            if (Character.isDigit(phoneNum.charAt(i))){
+                digits[index] = phoneNum.charAt(i);
+                index++;
+            }
+        }
+        return String.valueOf(digits);
     }
 
     //display hosts/guests

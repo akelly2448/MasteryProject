@@ -78,6 +78,22 @@ public class GuestFileRepository implements GuestRepository {
         return guest;
     }
 
+    @Override
+    public boolean update(Guest guest) throws DataException {
+        if (guest == null){
+            return false;
+        }
+        List<Guest> guests = findAll();
+        for (int i = 0; i < guests.size(); i++){
+            if (guests.get(i).getId() == guest.getId()){
+                guests.set(i,guest);
+                writeAll(guests);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void writeAll(List<Guest> guests) throws DataException {
         try (PrintWriter writer = new PrintWriter(filePath)){
             writer.println(HEADER);
