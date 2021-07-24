@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class View {
 
     private final ConsoleIO io;
-    private final int NAME_LIST_LENGTH = 25;  //control size of list displayed when choosing a host or guest
+    private final int NAME_LIST_LENGTH = 20;  //control size of list displayed when choosing a host or guest
 
     public View(ConsoleIO io){
         this.io = io;
@@ -229,7 +229,9 @@ public class View {
     public void displayReservationsByHost(List<Reservation> reservations, Host host){
         io.println("");
         if (reservations.size() == 0){
+            io.println("");
             io.println("Host does not have any reservations.");
+            io.println("");
             return;
         }
         String header = String.format("%s's Reservations: %s %s, %s",host.getLastName(), host.getAddress(), host.getCity(), host.getState());
@@ -250,13 +252,15 @@ public class View {
     public void displayReservationsByGuest(List<Reservation> reservations, Guest guest){
         io.println("");
         if (reservations.size() == 0){
+            io.println("");
             io.println("Guest does not have any reservations.");
+            io.println("");
             return;
         }
         String header = String.format("%s %s's Reservations", guest.getFirstName(), guest.getLastName());
         displayHeader(header);
         //host name, address, city, state, postal code, start, end, total
-        io.printf("%-10s  |  %-20s  | %12s -> %-12s | %-10s |%n", "Host", "Location", "Start Date", "End Date", "Total $");
+        io.printf("%-10s  |  %-15s %s %15s  | %12s -> %-12s | %-8s |%n", "Host","", "Location","", "Start Date", "End Date", "Total $");
         for (Reservation r: reservations){
             io.printf("%-10s  |  %-10s %s, %s %s  | %12s -> %-12s | $%s |%n",
                     r.getHost().getLastName(),
@@ -268,6 +272,12 @@ public class View {
                     r.getEndDate(),
                     r.getTotal());
         }
+        io.println("");
+    }
+
+    public void displayNullReservation(String action){
+        io.println("");
+        io.printf("No Reservation to %s.%n", action);
         io.println("");
     }
 

@@ -45,14 +45,13 @@ public class ReservationService {
     }
 
     public List<Reservation> findByGuestId(int guestId){
-        return reservationRepository.findByGuestId(guestId);
+        List<Reservation> reservations = reservationRepository.findByGuestId(guestId);
+        for (Reservation r: reservations){
+            Host host = hostRepository.findById(r.getHostId());
+            r.setHost(host);
+        }
+        return reservations;
     }
-
-    public Reservation findReservation(String hostId, int guestId){
-        //maybe refactor for all the times you needed to find a reservation just do it here.
-        return null;
-    }
-
 
     public Result<Reservation> add(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);

@@ -113,7 +113,7 @@ public class Controller {
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         Reservation reservation = view.updateReservation(reservations);
         if (reservation == null){
-            //no reservations message
+            view.displayNullReservation("update");
             return;
         }
         if (!confirmReservation(reservation,host)){
@@ -133,7 +133,7 @@ public class Controller {
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         Reservation reservation = view.chooseReservation(reservations);
         if (reservation == null){
-            //no reservations message
+            view.displayNullReservation("delete");
             return;
         }
 
