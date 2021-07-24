@@ -44,6 +44,10 @@ public class ReservationService {
         return result;
     }
 
+    public List<Reservation> findByGuestId(int guestId){
+        return reservationRepository.findByGuestId(guestId);
+    }
+
     public Reservation findReservation(String hostId, int guestId){
         //maybe refactor for all the times you needed to find a reservation just do it here.
         return null;

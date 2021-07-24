@@ -46,7 +46,7 @@ public class Controller {
             option = view.selectMainMenuOption();
             switch (option){
                 case VIEW_RESERVATIONS_BY_HOST:
-                    viewReservations();
+                    viewReservationsByHost();
                     break;
                 case MAKE_A_RESERVATION:
                     createReservation();
@@ -56,6 +56,9 @@ public class Controller {
                     break;
                 case CANCEL_A_RESERVATION:
                     deleteReservation();
+                    break;
+                case VIEW_RESERVATIONS_BY_GUEST:
+                    viewReservationsByGuest();
                     break;
                 case ADD_A_GUEST:
                     addGuest();
@@ -67,18 +70,18 @@ public class Controller {
                     addHost();
                     break;
                 case EDIT_A_HOST:
-
+                    updateHost();
                     break;
             }
         }while (option != MainMenuOption.EXIT);
     }
 
-    private void viewReservations(){
+    private void viewReservationsByHost(){
         view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_HOST.getMessage());
         Host host = getHost();
         if (host != null){
             List<Reservation> reservations = reservationService.findByHostID(host.getId());
-            view.displayReservations(reservations, host);
+            view.displayReservationsByHost(reservations, host);
         }
         view.enterToContinue();
     }
@@ -91,7 +94,7 @@ public class Controller {
             return;
         }
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
-        view.displayReservations(reservations, host);
+        view.displayReservationsByHost(reservations, host);
         Reservation reservation = view.makeReservation(host,guest);
         if (!confirmReservation(reservation,host)){
             return;
@@ -110,6 +113,7 @@ public class Controller {
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         Reservation reservation = view.updateReservation(reservations);
         if (reservation == null){
+            //no reservations message
             return;
         }
         if (!confirmReservation(reservation,host)){
@@ -129,11 +133,23 @@ public class Controller {
         List<Reservation> reservations = reservationService.findByHostID(host.getId());
         Reservation reservation = view.chooseReservation(reservations);
         if (reservation == null){
+            //no reservations message
             return;
         }
 
         Result<Reservation> result = reservationService.delete(reservation);
         displayResult("Reservation %s deleted.", reservation, result);
+    }
+
+    private void viewReservationsByGuest(){
+        view.displayHeader(MainMenuOption.VIEW_RESERVATIONS_BY_GUEST.getMessage());
+        Guest guest = getGuest();
+        if (guest != null){
+            List<Reservation> reservations = reservationService.findByGuestId(guest.getId());
+            view.displayReservationsByGuest(reservations,guest);
+        }
+        view.enterToContinue();
+
     }
 
     private void addGuest() throws DataException {
@@ -157,7 +173,11 @@ public class Controller {
         guest = view.updateGuest(guest);
         Result<Guest> result = guestService.update(guest);
         boolean resRepUpdated = reservationService.updateGuest(guest);
+
         if (result.isSuccess() && resRepUpdated){
+            String successMessage = String.format("Guest %s and their reservation(s) updated.", guest.getId());
+            view.displayStatus(true, successMessage);
+        }else if (result.isSuccess()) {
             String successMessage = String.format("Guest %s updated.", guest.getId());
             view.displayStatus(true, successMessage);
         }else{
@@ -169,6 +189,7 @@ public class Controller {
         view.displayHeader(MainMenuOption.ADD_A_HOST.getMessage());
         Host host = view.makeHost();
         Result<Host> result = hostService.add(host);
+
         if (!result.isSuccess()){
             view.displayStatus(false,result.getErrorMessages());
         }else{
@@ -186,10 +207,14 @@ public class Controller {
         host = view.updateHost(host);
         Result<Host> result = hostService.update(host);
         boolean resRepUpdated = reservationService.updateHost(host);
+
         if (result.isSuccess() && resRepUpdated){
+            String successMessage = String.format("Host %s and their reservation(s) updated.", host.getId());
+            view.displayStatus(true, successMessage);
+        }else if (result.isSuccess()) {
             String successMessage = String.format("Host %s updated.", host.getId());
             view.displayStatus(true, successMessage);
-        }else{
+        }else {
             view.displayStatus(false,result.getErrorMessages());
         }
     }

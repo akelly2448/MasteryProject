@@ -36,9 +36,10 @@ public class View {
 
     public Reservation makeReservation(Host host, Guest guest){
         Reservation reservation = new Reservation();
+        reservation.setGuest(guest);
         reservation.setGuestId(guest.getId());
+        reservation.setHost(host);
         reservation.setHostId(host.getId());
-        //forage.setDate(io.readLocalDate("Forage date [MM/dd/yyyy]: "));
         reservation.setStartDate(io.readLocalDate("Start date [MM/dd/yyyy]:"));
         reservation.setEndDate(io.readLocalDate("End date [MM/dd/yyyy]:"));
         return reservation;
@@ -225,20 +226,47 @@ public class View {
         }
     }
 
-    public void displayReservations(List<Reservation> reservations, Host host){
+    public void displayReservationsByHost(List<Reservation> reservations, Host host){
         io.println("");
         if (reservations.size() == 0){
             io.println("Host does not have any reservations.");
             return;
         }
-        String header = String.format("%s's reservations: %s %s, %s",host.getLastName(), host.getAddress(), host.getCity(), host.getState());
+        String header = String.format("%s's Reservations: %s %s, %s",host.getLastName(), host.getAddress(), host.getCity(), host.getState());
         displayHeader(header);
-        //format this table better
-        //a title would be nice
         //id - last name, first name - start - end
         io.printf("[%s] |   %-13s  | %12s -> %-12s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
         for (Reservation r: reservations){
-            io.printf("[%s]     | %11s, %-11s | %12s -> %-12s |%n",r.getId(),r.getGuest().getLastName(),r.getGuest().getFirstName(),r.getStartDate(),r.getEndDate()); //i dont think this is gonna work
+            io.printf("[%s]     | %11s, %-11s | %12s -> %-12s |%n",
+                    r.getId(),
+                    r.getGuest().getLastName(),
+                    r.getGuest().getFirstName(),
+                    r.getStartDate(),
+                    r.getEndDate());
+        }
+        io.println("");
+    }
+
+    public void displayReservationsByGuest(List<Reservation> reservations, Guest guest){
+        io.println("");
+        if (reservations.size() == 0){
+            io.println("Guest does not have any reservations.");
+            return;
+        }
+        String header = String.format("%s %s's Reservations", guest.getFirstName(), guest.getLastName());
+        displayHeader(header);
+        //host name, address, city, state, postal code, start, end, total
+        io.printf("%-10s  |  %-20s  | %12s -> %-12s | %-10s |%n", "Host", "Location", "Start Date", "End Date", "Total $");
+        for (Reservation r: reservations){
+            io.printf("%-10s  |  %-10s %s, %s %s  | %12s -> %-12s | $%s |%n",
+                    r.getHost().getLastName(),
+                    r.getHost().getAddress(),
+                    r.getHost().getCity(),
+                    r.getHost().getState(),
+                    r.getHost().getPostalCode(),
+                    r.getStartDate(),
+                    r.getEndDate(),
+                    r.getTotal());
         }
         io.println("");
     }
