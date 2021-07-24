@@ -77,6 +77,22 @@ public class HostFileRepository implements HostRepository {
         return false;
     }
 
+    @Override
+    public boolean delete(Host host) throws DataException {
+        if (host == null){
+            return false;
+        }
+        List<Host> hosts = findAll();
+        for (Host h: hosts){
+            if (h.getId().equals(host.getId())){
+                hosts.remove(h);
+                writeAll(hosts);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void writeAll(List<Host> hosts) throws DataException {
         try (PrintWriter writer = new PrintWriter(filePath)){
             writer.println(HEADER);

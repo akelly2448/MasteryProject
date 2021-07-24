@@ -13,4 +13,6 @@ public interface GuestRepository {
     Guest add(Guest guest) throws DataException;
 
     boolean update(Guest guest) throws DataException;
+
+    boolean delete(Guest guest) throws DataException;
 }

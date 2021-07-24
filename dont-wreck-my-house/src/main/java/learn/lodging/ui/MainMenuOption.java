@@ -10,8 +10,10 @@ public enum MainMenuOption {
     VIEW_RESERVATIONS_BY_GUEST(5, "View Reservations By Guest"),
     ADD_A_GUEST(6,"Add a Guest"),
     EDIT_A_GUEST(7,"Edit a Guest"),
-    ADD_A_HOST(8, "Add a Host"),
-    EDIT_A_HOST(9, "Edit a Host");
+    DELETE_A_GUEST(8, "Delete a Guest"),
+    ADD_A_HOST(9, "Add a Host"),
+    EDIT_A_HOST(10, "Edit a Host"),
+    DELETE_A_HOST(11, "Delete a Host");
 
     private int value;
     private String message;

@@ -2,6 +2,7 @@ package learn.lodging.domain;
 
 import learn.lodging.data.DataException;
 import learn.lodging.data.HostRepository;
+import learn.lodging.models.Guest;
 import learn.lodging.models.Host;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +62,15 @@ public class HostService {
         }
         host.setPhoneNum(formatPhoneNumber(host.getPhoneNum()));
         boolean success = repository.update(host);
+        if (!success){
+            result.addErrorMessage("Host not found.");
+        }
+        return result;
+    }
+
+    public Result<Host> delete(Host host) throws DataException {
+        Result<Host> result = new Result<>();
+        boolean success = repository.delete(host);
         if (!success){
             result.addErrorMessage("Host not found.");
         }

@@ -94,6 +94,22 @@ public class GuestFileRepository implements GuestRepository {
         return false;
     }
 
+    @Override
+    public boolean delete(Guest guest) throws DataException {
+        if (guest == null){
+            return false;
+        }
+        List<Guest> guests = findAll();
+        for (Guest g: guests){
+            if (g.getId() == guest.getId()){
+                guests.remove(g);
+                writeAll(guests);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void writeAll(List<Guest> guests) throws DataException {
         try (PrintWriter writer = new PrintWriter(filePath)){
             writer.println(HEADER);

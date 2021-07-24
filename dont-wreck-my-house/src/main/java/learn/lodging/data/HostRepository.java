@@ -13,4 +13,6 @@ public interface HostRepository {
     Host add(Host host) throws DataException;
 
     boolean update(Host host) throws DataException;
+
+    boolean delete(Host host) throws DataException;
 }

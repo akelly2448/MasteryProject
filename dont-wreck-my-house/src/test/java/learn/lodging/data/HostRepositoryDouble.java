@@ -38,6 +38,11 @@ public class HostRepositoryDouble implements HostRepository{
         return false;
     }
 
+    @Override
+    public boolean delete(Host host) throws DataException {
+        return false;
+    }
+
     private static Host makeHost(){
         Host host = new Host();
         //set host credentials

@@ -66,6 +66,15 @@ public class GuestService {
         return result;
     }
 
+    public Result<Guest> delete(Guest guest) throws DataException {
+        Result<Guest> result = new Result<>();
+        boolean success = repository.delete(guest);
+        if (!success){
+            result.addErrorMessage("Guest not found.");
+        }
+        return result;
+    }
+
     private Result<Guest> validate(Guest guest){
         Result<Guest> result = validateNulls(guest);
         if (!result.isSuccess()){

@@ -58,6 +58,11 @@ public class ReservationRepositoryDouble implements ReservationRepository{
     }
 
     @Override
+    public boolean deleteGuest(Guest guest) throws DataException {
+        return false;
+    }
+
+    @Override
     public List<Reservation> findByGuestId(int guestId) {
         return reservations.stream()
                 .filter(r -> r.getGuestId() == guestId)
@@ -66,6 +71,11 @@ public class ReservationRepositoryDouble implements ReservationRepository{
 
     @Override
     public boolean updateHost(Host host) throws DataException {
+        return false;
+    }
+
+    @Override
+    public boolean deleteHost(Host host) throws DataException {
         return false;
     }
 }

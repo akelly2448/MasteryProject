@@ -118,6 +118,44 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     @Override
+    public boolean deleteGuest(Guest guest) throws DataException {
+        if (guest == null){
+            return false;
+        }
+        boolean success;
+        List<Reservation> guestReservations = findByGuestId(guest.getId());
+        if (guestReservations.size() == 0){
+            return false;
+        }
+        for (Reservation r: guestReservations){
+            success = delete(r);
+            if (!success){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteHost(Host host) throws DataException {
+        if (host == null){
+            return false;
+        }
+        boolean success;
+        List<Reservation> hostReservations = findByHostId(host.getId());
+        if (hostReservations.size() == 0){
+            return false;
+        }
+        for (Reservation r: hostReservations){
+            success = delete(r);
+            if (!success){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public Reservation add(Reservation reservation) throws DataException {
         List<Reservation> reservations = findByHostId(reservation.getHostId());
         int nextId = 0;

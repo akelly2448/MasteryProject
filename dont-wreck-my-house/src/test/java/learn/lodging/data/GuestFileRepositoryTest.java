@@ -62,4 +62,14 @@ class GuestFileRepositoryTest {
         boolean success = repository.update(guest);
         assertFalse(success);
     }
+
+    @Test
+    void shouldDeleteExisting() throws DataException {
+        Guest guest = repository.findById(1);
+        boolean success = repository.delete(guest);
+        Guest test = repository.findById(1);
+
+        assertTrue(success);
+        assertNull(test.getFirstName());
+    }
 }

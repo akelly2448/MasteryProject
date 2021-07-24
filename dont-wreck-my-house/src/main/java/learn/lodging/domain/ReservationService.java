@@ -76,6 +76,14 @@ public class ReservationService {
         return reservationRepository.updateGuest(guest);
     }
 
+    public boolean deleteGuest(Guest guest) throws DataException {
+        return reservationRepository.deleteGuest(guest);
+    }
+
+    public boolean deleteHost(Host host) throws DataException {
+        return reservationRepository.deleteHost(host);
+    }
+
     public Result<Reservation> update(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);
         if (!result.isSuccess()){

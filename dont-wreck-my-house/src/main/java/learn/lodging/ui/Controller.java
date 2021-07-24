@@ -66,11 +66,17 @@ public class Controller {
                 case EDIT_A_GUEST:
                     updateGuest();
                     break;
+                case DELETE_A_GUEST:
+                    deleteGuest();
+                    break;
                 case ADD_A_HOST:
                     addHost();
                     break;
                 case EDIT_A_HOST:
                     updateHost();
+                    break;
+                case DELETE_A_HOST:
+                    deleteHost();
                     break;
             }
         }while (option != MainMenuOption.EXIT);
@@ -185,6 +191,26 @@ public class Controller {
         }
     }
 
+    private void deleteGuest() throws DataException {
+        view.displayHeader(MainMenuOption.DELETE_A_GUEST.getMessage());
+        Guest guest = getGuest();
+        if (guest == null){
+            return;
+        }
+        Result<Guest> result = guestService.delete(guest);
+        boolean resRepUpdated = reservationService.deleteGuest(guest);
+
+        if (result.isSuccess() && resRepUpdated){
+            String successMessage = String.format("Guest %s and their reservation(s) deleted.", guest.getId());
+            view.displayStatus(true, successMessage);
+        }else if (result.isSuccess()) {
+            String successMessage = String.format("Guest %s deleted.", guest.getId());
+            view.displayStatus(true, successMessage);
+        }else{
+            view.displayStatus(false,result.getErrorMessages());
+        }
+    }
+
     private void addHost() throws DataException {
         view.displayHeader(MainMenuOption.ADD_A_HOST.getMessage());
         Host host = view.makeHost();
@@ -215,6 +241,26 @@ public class Controller {
             String successMessage = String.format("Host %s updated.", host.getId());
             view.displayStatus(true, successMessage);
         }else {
+            view.displayStatus(false,result.getErrorMessages());
+        }
+    }
+
+    private void deleteHost() throws DataException {
+        view.displayHeader(MainMenuOption.DELETE_A_HOST.getMessage());
+        Host host = getHost();
+        if (host == null){
+            return;
+        }
+        Result<Host> result = hostService.delete(host);
+        boolean resRepUpdated = reservationService.deleteHost(host);
+
+        if (result.isSuccess() && resRepUpdated){
+            String successMessage = String.format("Host %s and their reservation(s) deleted.", host.getId());
+            view.displayStatus(true, successMessage);
+        }else if (result.isSuccess()) {
+            String successMessage = String.format("Host %s deleted.", host.getId());
+            view.displayStatus(true, successMessage);
+        }else{
             view.displayStatus(false,result.getErrorMessages());
         }
     }

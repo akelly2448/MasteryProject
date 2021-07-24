@@ -106,4 +106,15 @@ class ReservationFileRepositoryTest {
         boolean success = repository.updateGuest(guest);
         assertFalse(success);
     }
+
+    @Test
+    void shouldRemoveDeletedGuestReservations() throws DataException {
+        List<Reservation> reservations = repository.findByGuestId(24);
+        Reservation test = reservations.get(0);
+        Guest guest = test.getGuest();
+        boolean success = repository.deleteGuest(guest);
+        List<Reservation> updatedList = repository.findByGuestId(24);
+        assertTrue(success);
+        assertEquals(0, updatedList.size());
+    }
 }

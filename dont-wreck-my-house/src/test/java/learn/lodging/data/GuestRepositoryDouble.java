@@ -44,6 +44,11 @@ public class GuestRepositoryDouble implements GuestRepository{
         return guests.get(index).equals(guest);
     }
 
+    @Override
+    public boolean delete(Guest guest) throws DataException {
+        return false;
+    }
+
     private static Guest makeGuest(){
         Guest guest = new Guest();
         //set guest credentials
