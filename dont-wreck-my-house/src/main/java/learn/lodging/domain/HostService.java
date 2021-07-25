@@ -154,7 +154,6 @@ public class HostService {
         if (host.getStandardRate().compareTo(BigDecimal.ZERO) < 0){
             result.addErrorMessage("Standard Rate must be positive.");
         }
-
         if (host.getWeekendRate().compareTo(BigDecimal.ZERO) < 0){
             result.addErrorMessage("Weekend Rate must be positive.");
         }

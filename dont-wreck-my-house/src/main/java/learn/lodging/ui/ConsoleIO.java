@@ -18,11 +18,19 @@ public class ConsoleIO {
     private static final String REQUIRED
             = "[INVALID] Input is required.";
     private static final String INVALID_DATE
-            = "[INVALID] Enter a date in MM/dd/yyyy format.";
+            = "[INVALID] Enter a future date in MM/dd/yyyy format.";
     private static final String IVALID_CONFIRMATION
             = "[INVALID] Please enter 'y' or 'n'.";
     private static final String INVALID_NUMBER
             = "[INVALID] Enter a valid number.";
+    private static final String INVALID_EMAIL
+            = "[INVALID] Email must be a valid email address (containing '@' and '.').";
+    private static final String INVALID_PHONE
+            = "[INVALID] Phone # must a valid phone #.";
+    private static final String INVALID_STATE
+            = "[INVALID] State must be a valid capitalized US state acronym.";
+    private static final String INVALID_POSTAL
+            = "[INVALID] Postal Code must be valid (5 integers).";
     private static final String NUMBER_OUT_OF_RANGE
             = "[INVALID] Enter a number between %s and %s.";
     private final ArrayList<String> ALL_STATES_ACRONYMS = new ArrayList<>(List.of("AK", "AL", "AR", "AS", "AZ", "CA", "CO",
@@ -55,10 +63,12 @@ public class ConsoleIO {
             return input;
         }
     }
+
     public String readString(String prompt){
         print(prompt);
         return console.nextLine();
     }
+
     public String readRequiredString(String prompt){
         while (true){
             String input = readString(prompt);
@@ -68,6 +78,7 @@ public class ConsoleIO {
             println(REQUIRED);
         }
     }
+
     public int readInt(String prompt){
         while(true){
             try {
@@ -77,6 +88,7 @@ public class ConsoleIO {
             }
         }
     }
+
     public int readInt(String prompt, int min, int max){
         while (true){
             int result = readInt(prompt);
@@ -91,7 +103,7 @@ public class ConsoleIO {
         while(true){
             String input = readRequiredString(prompt);
             if (!(input.contains("@") && input.contains("."))){
-                println("Email must be a valid email address (containing '@' and '.').");
+                println(INVALID_EMAIL);
             }else {
                 return input;
             }
@@ -105,7 +117,7 @@ public class ConsoleIO {
                 return current;
             }else{
                 if (!(input.contains("@") && input.contains("."))){
-                    println("Email must be a valid email address (containing '@' and '.').");
+                    println(INVALID_EMAIL);
                 }else {
                     return input;
                 }
@@ -123,7 +135,7 @@ public class ConsoleIO {
                 }
             }
             if (!isValidNum || input.length() != 10){
-                println("Phone # must a valid phone #.");
+                println(INVALID_PHONE);
             }else{
                 return input;
             }
@@ -143,7 +155,7 @@ public class ConsoleIO {
                     }
                 }
                 if (!isValidNum || input.length() != 10){
-                    println("Phone # must a valid phone #.");
+                    println(INVALID_PHONE);
                 }else{
                     return input;
                 }
@@ -155,7 +167,7 @@ public class ConsoleIO {
         while (true){
             String input = readRequiredString(prompt);
             if (!ALL_STATES_ACRONYMS.contains(input)){
-                println("State must be a valid US state acronym.");
+                println(INVALID_STATE);
             }else{
                 return input;
             }
@@ -169,7 +181,7 @@ public class ConsoleIO {
                 return current;
             }else {
                 if (!ALL_STATES_ACRONYMS.contains(input)){
-                    println("State must be a valid US state acronym.");
+                    println(INVALID_STATE);
                 }else{
                     return input;
                 }
@@ -187,7 +199,7 @@ public class ConsoleIO {
                 }
             }
             if (!isValidPostal || input.length() != 5){
-                println("Postal Code must be valid (5 integers).");
+                println(INVALID_POSTAL);
             }else{
                 return input;
             }
@@ -207,7 +219,7 @@ public class ConsoleIO {
                     }
                 }
                 if (!isValidPostal || input.length() != 5){
-                    println("Postal Code must be valid (5 integers).");
+                    println(INVALID_POSTAL);
                 }else{
                     return input;
                 }
@@ -224,7 +236,7 @@ public class ConsoleIO {
             try{
                 LocalDate date = LocalDate.parse(input,formatter);
                 if (date.isBefore(LocalDate.now())){
-                    println("Date must be in the future.");
+                    println(INVALID_DATE);
                 }else{
                     return date;
                 }
@@ -241,7 +253,7 @@ public class ConsoleIO {
             try{
                 LocalDate date = LocalDate.parse(input,formatter);
                 if (date.isBefore(LocalDate.now())){
-                    println("Date must be in the future.");
+                    println(INVALID_DATE);
                 }else{
                     return date;
                 }

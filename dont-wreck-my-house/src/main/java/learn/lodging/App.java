@@ -16,6 +16,5 @@ public class App {
         Controller controller = context.getBean(Controller.class);
         controller.run();
     }
-
-
+    
 }

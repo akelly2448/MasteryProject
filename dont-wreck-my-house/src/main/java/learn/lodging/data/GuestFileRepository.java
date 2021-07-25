@@ -49,21 +49,7 @@ public class GuestFileRepository implements GuestRepository {
         }
         return guest;
     }
-    /*
-    @Override
-    public Reservation add(Reservation reservation) throws DataException {
-        List<Reservation> reservations = findByHostId(reservation.getHostId());
-        int nextId = 0;
-        for (Reservation r: reservations){
-            nextId = Math.max(nextId,r.getId());
-        }
-        nextId++;
-        reservation.setId(nextId);
-        reservations.add(reservation);
-        writeAll(reservations, reservation.getHostId());
-        return reservation;
-    }
-     */
+
     @Override
     public Guest add(Guest guest) throws DataException {
         List<Guest> guests = findAll();

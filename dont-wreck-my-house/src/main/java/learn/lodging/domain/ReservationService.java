@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,8 +31,8 @@ public class ReservationService {
 
     public List<Reservation> findByHostID(String hostId){
 
-        Map<Integer, Guest> guestMap = guestRepository.findAll().stream().collect(Collectors.toMap(i -> i.getId(), i -> i));
-        Map<String, Host> hostMap = hostRepository.findAll().stream().collect(Collectors.toMap(i -> i.getId(), i -> i));
+        Map<Integer, Guest> guestMap = guestRepository.findAll().stream().collect(Collectors.toMap(Guest::getId, i -> i));
+        Map<String, Host> hostMap = hostRepository.findAll().stream().collect(Collectors.toMap(Host::getId, i -> i));
 
         List<Reservation> result = reservationRepository.findByHostId(hostId);
         for (Reservation r: result){
@@ -104,11 +103,7 @@ public class ReservationService {
         LocalDate end = reservation.getEndDate();
         reservation.setTotal(calculateTotal(start, end, reservation.getHostId()));
 
-        //need to validate before updating
-
-
         boolean success = reservationRepository.update(reservation);
-
         if (!success){
             result.addErrorMessage("Reservation not found.");
         }
@@ -134,8 +129,6 @@ public class ReservationService {
     public BigDecimal calculateTotal (LocalDate start, LocalDate end, String hostId){
         BigDecimal standard = hostRepository.findById(hostId).getStandardRate();
         BigDecimal weekend = hostRepository.findById(hostId).getWeekendRate();
-
-        //long days = ChronoUnit.DAYS.between(start,end); might not need this
         int numStandard = 0;
         int numWeekend = 0;
 
@@ -146,10 +139,8 @@ public class ReservationService {
                 numStandard++;
             }
         }
-
         return standard.multiply(new BigDecimal(numStandard)).add(weekend.multiply(new BigDecimal(numWeekend)));
     }
-
 
     private Result<Reservation> validate(Reservation reservation){
         Result<Reservation> result = validateNulls(reservation);
@@ -157,7 +148,6 @@ public class ReservationService {
             return result;
         }
         validateDates(reservation,result);
-
         return result;
     }
 

@@ -15,9 +15,7 @@ public class Reservation {
     private String hostId;
 
 
-    public Reservation(){
-
-    }
+    public Reservation(){ }
 
     public Reservation(int id, LocalDate startDate, LocalDate endDate, int guestId, BigDecimal total, String hostId) {
         this.id = id;

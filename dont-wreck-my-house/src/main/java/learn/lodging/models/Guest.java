@@ -9,9 +9,7 @@ public class Guest {
     private String phoneNum;
     private String state;
 
-    public Guest(){
-
-    }
+    public Guest(){ }
 
     public Guest(int id, String firstName, String lastName, String email, String phoneNum, String state) {
         this.id = id;

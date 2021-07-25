@@ -1,7 +1,6 @@
 package learn.lodging.models;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class Host {
 
@@ -16,9 +15,7 @@ public class Host {
     private BigDecimal standardRate;
     private BigDecimal weekendRate;
 
-    public Host(){
-
-    }
+    public Host(){ }
 
     public Host(String id, String lastName, String email, String phoneNum, String address, String city, String state, String postalCode, BigDecimal standardRate, BigDecimal weekendRate) {
         this.id = id;
@@ -104,7 +101,6 @@ public class Host {
     public String getPostalCode() {
         return postalCode;
     }
-
 
     public BigDecimal getStandardRate() {
         return standardRate;

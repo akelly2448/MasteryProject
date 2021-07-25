@@ -66,7 +66,6 @@ public class View {
         host.setPostalCode(io.readPostal("Enter Postal Code: "));
         host.setStandardRate(io.readBigDecimal("Enter Standard Rate: "));
         host.setWeekendRate(io.readBigDecimal("Enter Weekend Rate: "));
-
         return host;
     }
 
@@ -89,7 +88,6 @@ public class View {
         guest.setFirstName(io.readString("Enter First Name: ", guest.getFirstName()));
         guest.setLastName(io.readString("Enter Last Name: ", guest.getLastName()));
         guest.setEmail(io.readEmail("Enter Email Address: ", guest.getEmail()));
-        //fix phone #: (###) ####### -> ##########
         guest.setPhoneNum(io.readPhoneNum("Enter Phone #: ", deserializePhoneNum(guest.getPhoneNum())));
         guest.setState(io.readState("Enter State: ", guest.getState()));
         return guest;
@@ -110,7 +108,6 @@ public class View {
         host.setStandardRate(io.readBigDecimal("Enter Standard Rate: ", host.getStandardRate()));
         host.setWeekendRate(io.readBigDecimal("Enter Weekend Rate: ", host.getWeekendRate()));
         return host;
-
     }
 
     public String getLastNamePrefix(boolean isHost) {
@@ -132,9 +129,8 @@ public class View {
             io.printf("[%s] - %s %s%n", index++, guest.getFirstName(), guest.getLastName());
         }
         index--;
-
         if (guests.size() > NAME_LIST_LENGTH){
-            io.printf("More than %s guests found. Showing first %s. Please refine search.%n",NAME_LIST_LENGTH,NAME_LIST_LENGTH);
+            io.printf("More than %s guests found. Showing first %s. Refine search for better results.%n",NAME_LIST_LENGTH,NAME_LIST_LENGTH);
         }
         io.println("[0] Exit");
         String message = String.format("Select a guest by their index[0 - %s]: ", index);
@@ -157,9 +153,8 @@ public class View {
             io.printf("[%s] - %s %s%n", index++, host.getLastName(), host.getEmail());
         }
         index--;
-
         if (hosts.size() > NAME_LIST_LENGTH){
-            io.printf("More than %s hosts found. Showing first %s. Please refine search.%n",NAME_LIST_LENGTH,NAME_LIST_LENGTH);
+            io.printf("More than %s hosts found. Showing first %s. Refine search for better results.%n",NAME_LIST_LENGTH,NAME_LIST_LENGTH);
         }
         io.println("[0] Exit");
         String message = String.format("Select a host by their index[0 - %s]: ", index);
@@ -220,7 +215,7 @@ public class View {
     }
 
     public void displayStatus(boolean success, List<String> messages) {
-        displayHeader(success ? "Success" : "Error");
+        displayHeader(success ? "Success!" : ". . .Error. . .");
         for (String message : messages) {
             io.println(message);
         }
@@ -237,9 +232,9 @@ public class View {
         String header = String.format("%s's Reservations: %s %s, %s",host.getLastName(), host.getAddress(), host.getCity(), host.getState());
         displayHeader(header);
         //id - last name, first name - start - end
-        io.printf("[%s] |   %-13s  | %12s -> %-12s |%n", "Index", "Last Name, First Name", "Start Date", "End Date");
+        io.printf("[%s] | %-3s %s %3s | %12s -> %-12s |%n", "Index","","Last Name, First Name","", "Start Date", "End Date");
         for (Reservation r: reservations){
-            io.printf("[%s]     | %11s, %-11s | %12s -> %-12s |%n",
+            io.printf("[%s]     | %13s, %-13s  | %12s -> %-12s |%n",
                     r.getId(),
                     r.getGuest().getLastName(),
                     r.getGuest().getFirstName(),
@@ -286,7 +281,6 @@ public class View {
         reservation.setStartDate(start);
         LocalDate end = io.readLocalDate("End date [MM/dd/yyyy]: ", reservation.getEndDate());
         reservation.setEndDate(end);
-
         return reservation;
     }
 
@@ -301,7 +295,4 @@ public class View {
         }
         return String.valueOf(digits);
     }
-
-    //display hosts/guests
-
 }

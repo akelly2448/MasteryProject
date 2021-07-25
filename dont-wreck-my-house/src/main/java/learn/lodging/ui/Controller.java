@@ -37,7 +37,6 @@ public class Controller {
             view.displayException(ex);
         }
         view.displayHeader("Goodbye.");
-
     }
 
     private void runAppLoop() throws DataException {
@@ -105,9 +104,8 @@ public class Controller {
         if (!confirmReservation(reservation,host)){
             return;
         }
-
         Result<Reservation> result = reservationService.add(reservation);
-        displayResult("Reservation %s created.", reservation, result);
+        displayReservationResult("Reservation %s created.", reservation, result);
     }
 
     private void updateReservation() throws DataException {
@@ -125,9 +123,8 @@ public class Controller {
         if (!confirmReservation(reservation,host)){
             return;
         }
-
         Result<Reservation> result = reservationService.update(reservation);
-        displayResult("Reservation %s updated.", reservation, result);
+        displayReservationResult("Reservation %s updated.", reservation, result);
     }
 
     private void deleteReservation() throws DataException {
@@ -142,9 +139,8 @@ public class Controller {
             view.displayNullReservation("delete");
             return;
         }
-
         Result<Reservation> result = reservationService.delete(reservation);
-        displayResult("Reservation %s deleted.", reservation, result);
+        displayReservationResult("Reservation %s deleted.", reservation, result);
     }
 
     private void viewReservationsByGuest(){
@@ -155,19 +151,13 @@ public class Controller {
             view.displayReservationsByGuest(reservations,guest);
         }
         view.enterToContinue();
-
     }
 
     private void addGuest() throws DataException {
         view.displayHeader(MainMenuOption.ADD_A_GUEST.getMessage());
         Guest guest = view.makeGuest();
         Result<Guest> result = guestService.add(guest);
-        if (!result.isSuccess()){
-            view.displayStatus(false,result.getErrorMessages());
-        }else{
-            String successMessage = String.format("Guest %s created.", guest.getId());
-            view.displayStatus(true, successMessage);
-        }
+        displayGuestResult(result, guest.getId(), "created");
     }
 
     private void updateGuest() throws DataException {
@@ -178,17 +168,8 @@ public class Controller {
         }
         guest = view.updateGuest(guest);
         Result<Guest> result = guestService.update(guest);
-        boolean resRepUpdated = reservationService.updateGuest(guest);
-
-        if (result.isSuccess() && resRepUpdated){
-            String successMessage = String.format("Guest %s and their reservation(s) updated.", guest.getId());
-            view.displayStatus(true, successMessage);
-        }else if (result.isSuccess()) {
-            String successMessage = String.format("Guest %s updated.", guest.getId());
-            view.displayStatus(true, successMessage);
-        }else{
-            view.displayStatus(false,result.getErrorMessages());
-        }
+        reservationService.updateGuest(guest);
+        displayGuestResult(result, guest.getId(), "updated");
     }
 
     private void deleteGuest() throws DataException {
@@ -198,30 +179,15 @@ public class Controller {
             return;
         }
         Result<Guest> result = guestService.delete(guest);
-        boolean resRepUpdated = reservationService.deleteGuest(guest);
-
-        if (result.isSuccess() && resRepUpdated){
-            String successMessage = String.format("Guest %s and their reservation(s) deleted.", guest.getId());
-            view.displayStatus(true, successMessage);
-        }else if (result.isSuccess()) {
-            String successMessage = String.format("Guest %s deleted.", guest.getId());
-            view.displayStatus(true, successMessage);
-        }else{
-            view.displayStatus(false,result.getErrorMessages());
-        }
+        reservationService.deleteGuest(guest);
+        displayGuestResult(result, guest.getId(), "deleted");
     }
 
     private void addHost() throws DataException {
         view.displayHeader(MainMenuOption.ADD_A_HOST.getMessage());
         Host host = view.makeHost();
         Result<Host> result = hostService.add(host);
-
-        if (!result.isSuccess()){
-            view.displayStatus(false,result.getErrorMessages());
-        }else{
-            String successMessage = String.format("Host %s created.", host.getId());
-            view.displayStatus(true, successMessage);
-        }
+        displayHostResult(result, host.getId(), "created");
     }
 
     private void updateHost() throws DataException {
@@ -232,17 +198,8 @@ public class Controller {
         }
         host = view.updateHost(host);
         Result<Host> result = hostService.update(host);
-        boolean resRepUpdated = reservationService.updateHost(host);
-
-        if (result.isSuccess() && resRepUpdated){
-            String successMessage = String.format("Host %s and their reservation(s) updated.", host.getId());
-            view.displayStatus(true, successMessage);
-        }else if (result.isSuccess()) {
-            String successMessage = String.format("Host %s updated.", host.getId());
-            view.displayStatus(true, successMessage);
-        }else {
-            view.displayStatus(false,result.getErrorMessages());
-        }
+        reservationService.updateHost(host);
+        displayHostResult(result, host.getId(), "updated");
     }
 
     private void deleteHost() throws DataException {
@@ -252,17 +209,8 @@ public class Controller {
             return;
         }
         Result<Host> result = hostService.delete(host);
-        boolean resRepUpdated = reservationService.deleteHost(host);
-
-        if (result.isSuccess() && resRepUpdated){
-            String successMessage = String.format("Host %s and their reservation(s) deleted.", host.getId());
-            view.displayStatus(true, successMessage);
-        }else if (result.isSuccess()) {
-            String successMessage = String.format("Host %s deleted.", host.getId());
-            view.displayStatus(true, successMessage);
-        }else{
-            view.displayStatus(false,result.getErrorMessages());
-        }
+        reservationService.deleteHost(host);
+        displayHostResult(result, host.getId(), "deleted");
     }
 
     //support methods
@@ -289,7 +237,25 @@ public class Controller {
         return isConfirmed;
     }
 
-    private void displayResult(String success, Reservation reservation, Result<Reservation> result){
+    private void displayGuestResult(Result<Guest> result, int id, String action){
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Guest %s %s.", id, action);
+            view.displayStatus(true, successMessage);
+        }
+    }
+
+    private void displayHostResult(Result<Host> result, String id, String action){
+        if (!result.isSuccess()){
+            view.displayStatus(false,result.getErrorMessages());
+        }else{
+            String successMessage = String.format("Host %s %s.", id, action);
+            view.displayStatus(true, successMessage);
+        }
+    }
+
+    private void displayReservationResult(String success, Reservation reservation, Result<Reservation> result){
         if (!result.isSuccess()){
             view.displayStatus(false,result.getErrorMessages());
         }else{

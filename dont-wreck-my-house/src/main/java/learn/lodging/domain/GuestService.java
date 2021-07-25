@@ -81,7 +81,6 @@ public class GuestService {
             return result;
         }
         validateInputs(guest,result);
-
         return result;
     }
 
