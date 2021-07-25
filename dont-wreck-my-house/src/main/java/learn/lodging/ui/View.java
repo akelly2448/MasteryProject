@@ -49,21 +49,21 @@ public class View {
         Guest guest = new Guest();
         guest.setFirstName(io.readRequiredString("Enter First Name: "));
         guest.setLastName(io.readRequiredString("Enter Last Name: "));
-        guest.setEmail(io.readRequiredString("Enter Email Address: "));
-        guest.setPhoneNum(io.readRequiredString("Enter Phone #: "));
-        guest.setState(io.readRequiredString("Enter State: "));
+        guest.setEmail(io.readEmail("Enter Email Address: "));
+        guest.setPhoneNum(io.readPhoneNum("Enter Phone #: "));
+        guest.setState(io.readState("Enter State: "));
         return guest;
     }
 
     public Host makeHost(){
         Host host = new Host();
         host.setLastName(io.readRequiredString("Enter Last Name: "));
-        host.setEmail(io.readRequiredString("Enter Email Address: "));
-        host.setPhoneNum(io.readRequiredString("Enter Phone #: "));
+        host.setEmail(io.readEmail("Enter Email Address: "));
+        host.setPhoneNum(io.readPhoneNum("Enter Phone #: "));
         host.setAddress(io.readRequiredString("Enter Street Address: "));
         host.setCity(io.readRequiredString("Enter City: "));
-        host.setState(io.readRequiredString("Enter State: "));
-        host.setPostalCode(io.readRequiredString("Enter Postal Code: "));
+        host.setState(io.readState("Enter State: "));
+        host.setPostalCode(io.readPostal("Enter Postal Code: "));
         host.setStandardRate(io.readBigDecimal("Enter Standard Rate: "));
         host.setWeekendRate(io.readBigDecimal("Enter Weekend Rate: "));
 
@@ -88,10 +88,10 @@ public class View {
 
         guest.setFirstName(io.readString("Enter First Name: ", guest.getFirstName()));
         guest.setLastName(io.readString("Enter Last Name: ", guest.getLastName()));
-        guest.setEmail(io.readString("Enter Email Address: ", guest.getEmail()));
+        guest.setEmail(io.readEmail("Enter Email Address: ", guest.getEmail()));
         //fix phone #: (###) ####### -> ##########
-        guest.setPhoneNum(io.readString("Enter Phone #: ", deserializePhoneNum(guest.getPhoneNum())));
-        guest.setState(io.readString("Enter State: ", guest.getState()));
+        guest.setPhoneNum(io.readPhoneNum("Enter Phone #: ", deserializePhoneNum(guest.getPhoneNum())));
+        guest.setState(io.readState("Enter State: ", guest.getState()));
         return guest;
     }
 
@@ -101,12 +101,12 @@ public class View {
         io.println("");
 
         host.setLastName(io.readString("Enter Last Name: ", host.getLastName()));
-        host.setEmail(io.readString("Enter Email Address: ", host.getEmail()));
-        host.setPhoneNum(io.readString("Enter Phone #: ", deserializePhoneNum(host.getPhoneNum())));
+        host.setEmail(io.readEmail("Enter Email Address: ", host.getEmail()));
+        host.setPhoneNum(io.readPhoneNum("Enter Phone #: ", deserializePhoneNum(host.getPhoneNum())));
         host.setAddress(io.readString("Enter Street Address: ", host.getAddress()));
         host.setCity(io.readString("Enter City: ", host.getCity()));
-        host.setState(io.readString("Enter State: ", host.getState()));
-        host.setPostalCode(io.readString("Enter Postal Code: ", host.getPostalCode()));
+        host.setState(io.readState("Enter State: ", host.getState()));
+        host.setPostalCode(io.readPostal("Enter Postal Code: ", host.getPostalCode()));
         host.setStandardRate(io.readBigDecimal("Enter Standard Rate: ", host.getStandardRate()));
         host.setWeekendRate(io.readBigDecimal("Enter Weekend Rate: ", host.getWeekendRate()));
         return host;

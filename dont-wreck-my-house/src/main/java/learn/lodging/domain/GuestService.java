@@ -136,21 +136,4 @@ public class GuestService {
         String b = phoneNum.substring(3);
         return "("+a+") "+b;
     }
-
-    //check for unique?
-    /*
-        private void validateUnique(Forager forager, Result<Forager> result){
-        List<Forager> all = repository.findAll();
-
-        for (Forager f: all){
-            if (f.getFirstName().equals(forager.getFirstName()) &&
-                f.getLastName().equals(forager.getLastName()) &&
-                f.getState().equals(forager.getState())){
-
-                result.addErrorMessage("Forager already exists.");
-            }
-        }
-
-    }
-     */
 }
