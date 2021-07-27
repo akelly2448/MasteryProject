@@ -116,7 +116,7 @@ class ReservationServiceTest {
     void shouldDeleteExisting() throws DataException {
         List<Reservation> reservations = service.findByHostID("test-host-id");
         Reservation test = reservations.get(0);
-
+        //set a reservation with specified id
         Result<Reservation> result = service.delete(test);
         boolean success = result.isSuccess();
 
@@ -134,11 +134,18 @@ class ReservationServiceTest {
 
     @Test
     void shouldCalculateProperTotal(){
-        LocalDate start = LocalDate.of(2021,7,23);
-        LocalDate end = LocalDate.of(2021,7,26);
+        LocalDate start = LocalDate.of(2022, 7, 26);
+        LocalDate end = LocalDate.of(2022, 7, 28);
 
         BigDecimal total = service.calculateTotal(start,end,"test-host-id");
-        BigDecimal expected = new BigDecimal("600.00");
+        BigDecimal expected = new BigDecimal("200.00");
+        assertEquals(expected,total);
+
+        start = LocalDate.of(2022, 7, 29);
+        end = LocalDate.of(2022, 7, 31);
+
+        total = service.calculateTotal(start,end,"test-host-id");
+        expected = new BigDecimal("400.00");
         assertEquals(expected,total);
 
     }

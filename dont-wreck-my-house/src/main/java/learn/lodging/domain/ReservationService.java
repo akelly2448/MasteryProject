@@ -132,8 +132,8 @@ public class ReservationService {
         int numStandard = 0;
         int numWeekend = 0;
 
-        for (;start.compareTo(end) <= 0; start = start.plusDays(1)){
-            if (start.getDayOfWeek() == DayOfWeek.SATURDAY || start.getDayOfWeek() == DayOfWeek.SUNDAY){
+        for (;start.compareTo(end) < 0; start = start.plusDays(1)){
+            if (start.getDayOfWeek() == DayOfWeek.FRIDAY || start.getDayOfWeek() == DayOfWeek.SATURDAY){
                 numWeekend++;
             }else{
                 numStandard++;
@@ -177,7 +177,7 @@ public class ReservationService {
         LocalDate start = reservation.getStartDate();
         LocalDate end = reservation.getEndDate();
 
-        if (start.isAfter(end)){
+        if (!start.isBefore(end)){
             result.addErrorMessage("Start date must come before end date.");
         }
 
@@ -188,10 +188,18 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.findByHostId(reservation.getHostId());
         for (Reservation r: reservations){
             if (r.getId() != reservation.getId()) {
-                if (!(start.isBefore(r.getStartDate()) && end.isBefore(r.getStartDate())
-                        || start.isAfter(r.getEndDate()) && end.isAfter(r.getEndDate()))) {
+                boolean isCompletelyBefore = start.isBefore(r.getStartDate()) && (end.isBefore(r.getStartDate()) || end.equals(r.getStartDate()));
+                boolean isCompletelyAfter = (start.isAfter(r.getEndDate()) || start.equals(r.getEndDate())) && end.isAfter(r.getEndDate());
+
+                if (!(isCompletelyBefore || isCompletelyAfter)){
                     result.addErrorMessage("Reservation dates cannot overlap.");
                 }
+
+
+//                if (!(start.isBefore(r.getStartDate()) && end.isBefore(r.getStartDate())
+//                        || start.isAfter(r.getEndDate()) && end.isAfter(r.getEndDate()))) {
+//                    result.addErrorMessage("Reservation dates cannot overlap.");
+//                }
             }
         }
     }

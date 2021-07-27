@@ -14,8 +14,8 @@ public class ReservationRepositoryDouble implements ReservationRepository{
 
     final String hostId = "test-host-id";
     private final ArrayList<Reservation> reservations = new ArrayList<>();
-    private final LocalDate start = LocalDate.of(2021,7,24);
-    private final LocalDate end = LocalDate.of(2021,7,25);
+    private final LocalDate start = LocalDate.of(2023,7,24);
+    private final LocalDate end = LocalDate.of(2023,7,25);
 
     public ReservationRepositoryDouble(){
         //add some random reservations to the list
@@ -49,6 +49,8 @@ public class ReservationRepositoryDouble implements ReservationRepository{
 
     @Override
     public boolean delete(Reservation reservation) throws DataException {
+        //if reservation.getId() == "host-id";{
+        //  return true;
         return findByHostId(reservation.getHostId()) != null;
     }
 
